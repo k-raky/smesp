@@ -1,0 +1,23 @@
+MYSQL_ADDON_HOST=bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com
+MYSQL_ADDON_DB=bejunitqknwdzbyfqz0y
+MYSQL_ADDON_USER=ulsartcj6ukxsuwr
+MYSQL_ADDON_PORT=3306
+MYSQL_ADDON_PASSWORD=fYEPeEbAu9sTiAzv276j 
+MYSQL_ADDON_URI=mysql://ulsartcj6ukxsuwr:fYEPeEbAu9sTiAzv276j@bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com:3306/bejunitqknwdzbyfqz0y
+
+Host : bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com
+Database Name : bejunitqknwdzbyfqz0y
+User : ulsartcj6ukxsuwr
+Password : fYEPeEbAu9sTiAzv276j
+Port : 3306
+Connection URI : mysql://ulsartcj6ukxsuwr:fYEPeEbAu9sTiAzv276j@bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com:3306/bejunitqknwdzbyfqz0y
+
+MySQL CLI
+mysql -h bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com -P 3306 -u ulsartcj6ukxsuwr -p bejunitqknwdzbyfqz0y
+
+PDO
+$bdd = new PDO(
+    	"mysql:host=" . getenv("MYSQL_ADDON_HOST") . ";dbname=" . getenv("MYSQL_ADDON_DB"),
+    	getenv("MYSQL_ADDON_USER"),
+    	getenv("MYSQL_ADDON_PASSWORD")
+  );

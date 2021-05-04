@@ -33,12 +33,12 @@ if(isset($_POST['suspendre'])){
     $result3 = mysqli_query($conn,$query3); 
     if ($result3) {
       echo "<script>alert('tache suspendue')</script>";
-      unset($_POST);
       echo "<script>location.href='demandetech.php';</script>";
     } 
     else {
       echo "<script>alert(erreur de requete : $conn->error)</script>";
     }
+    unset($_POST);
 
 }
 
@@ -51,12 +51,12 @@ if(isset($_POST['reprendre'])){
   $result4 = mysqli_query($conn,$query4); 
   if ($result4) {
     echo "<script>alert('tache reprise')</script>";
-    unset($_POST);
     echo "<script>location.href='demandetech.php';</script>";
   } 
   else {
     echo "<script>alert(erreur de requete : $conn->error)</script>";
   }
+  unset($_POST);
 
 }
 
@@ -97,14 +97,23 @@ if(isset($_POST['reprendre'])){
           cursor: pointer;
         }
 
-        .container{
-            width: 85%;
+        .container-fluid{
+            width: 90%;
             height: fit-content;
             margin-top: 10%;
             margin-bottom: 10%;
-            padding: 0 5% 0 5%;
+            padding: 0 5% 5% 5%;
+            display: flex;
+            align-items: center;
+            align-self: center;
+            flex-direction: column;
         }
-
+        tr{
+          margin-top: 25px;
+          margin-bottom: 25px;
+        }
+       
+      
     </style>
 </head>
  
@@ -123,22 +132,24 @@ if(isset($_POST['reprendre'])){
         $(document).ready(function(){
           $("#search").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#table").filter(function() {
+            $("#table tr").filter(function() {
               $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
           });
         });
 
 
-        function change(delai,ref,statut,button){
+        function change(delai,ref,statut,button,check){
 
-          if (delai>4 && statut=="en cours")
+          if (delai>4)
           {
             document.getElementById(ref).style.color='red';
             document.getElementById(button).style.backgroundColor='red';
           }
           if (statut=="ok") {
             document.getElementById(ref).style.color='green';
+            document.getElementById(check).style.visibility="visible";
+
           }
           if (statut=="suspendue") {
             document.getElementById(ref).style.color='orange';
@@ -188,14 +199,14 @@ if(isset($_POST['reprendre'])){
            <a class="navbar-brand" href="#accueil.html">SMESP</a>
        </nav>
    
-          <div class="container bg-light d-flex flex-column align-items-center align-self-center">
+          <div class="container-fluid bg-light">
 
-          <input type="search" name="search" id="search" placeholder="Search..">
+          <input type="search" name="search" id="search" placeholder="rechercher" class="d-flex align-self-end border-info m-2">
 
             <h1 class="titre m-5">LES DEMANDES</h1>
           
           <div>
-            <table class="table" id="table">
+            <table class="table table-borderless" id="table" style="font-size:large;" >
                 <thead>
                   <tr>
                     <th scope="col">Ref</th>
@@ -214,6 +225,7 @@ if(isset($_POST['reprendre'])){
                   <?php
                   while($row = mysqli_fetch_assoc($result)){
                     $button="button".$row['ref']."";
+                    $check="check".$row['ref']."";
                     $ref=$row['ref'];
                     $date=$row['date'];
                     $nom=$row['nom'];
@@ -235,8 +247,11 @@ if(isset($_POST['reprendre'])){
                     echo "<td>$depart</td>";
                     echo "<td class='statut' onclick='statut(\"$statut\");infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$statut\",$delai,\"$motif\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td><button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalupdate' style='visibility:hidden;' onclick='getref($ref);'>mettre a jour</button></td></tr>";
-                    echo "<script> change($delai,$ref,'$statut','$button');</script>";
+                    echo "<td>
+                            <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
+                            <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalupdate' style='visibility:hidden;font-size:small' onclick='getref($ref);'>mettre a jour</button>
+                          </td></tr>";
+                    echo "<script> change($delai,$ref,'$statut','$button','$check');</script>";
                     }
                   ?>
                   
@@ -325,7 +340,7 @@ if(isset($_POST['reprendre'])){
                 <input type="hidden" name="refrep" id="refrep">
                 <button type="submit" name="reprendre" class="btn" style="background-color: #f4900c;color:white;margin : 15px;">rependre la tache</button>
               </form>
-            <button type="button" class="btn" name="reprendre" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
+            <button type="button" class="btn" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
             </div>
 
           </div>

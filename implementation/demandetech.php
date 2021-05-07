@@ -1,4 +1,6 @@
 <?php
+
+
 $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
 $username = "ulsartcj6ukxsuwr";
 $password = "fYEPeEbAu9sTiAzv276j";
@@ -12,7 +14,7 @@ if ($conn->connect_error) {
 }
 //else echo "<script>alert('success')</script>";
 
-$query = "SELECT * FROM taches where idtech=2 limit 20";
+$query = "SELECT * FROM taches where idtech='201808EF8'";
 $result = mysqli_query($conn,$query); 
 if ($result) {
  // echo "<script>alert('ok')</script>";
@@ -102,7 +104,6 @@ if(isset($_POST['reprendre'])){
             height: fit-content;
             margin-top: 10%;
             margin-bottom: 10%;
-            padding: 0 5% 5% 5%;
             display: flex;
             align-items: center;
             align-self: center;
@@ -139,6 +140,13 @@ if(isset($_POST['reprendre'])){
         });
 
 
+        function openmodal(){
+          $('body').load("ficheintervention.php #modalvaliderbody",function(){
+              $('#modalvalider').modal('show');
+            });
+        }
+
+
         function change(delai,ref,statut,button,check){
 
           if (delai>4)
@@ -146,25 +154,25 @@ if(isset($_POST['reprendre'])){
             document.getElementById(ref).style.color='red';
             document.getElementById(button).style.backgroundColor='red';
           }
-          if (statut=="ok") {
+          if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
             document.getElementById(check).style.visibility="visible";
 
           }
-          if (statut=="suspendue") {
+          if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
           }
-          if (statut=="en cours") {
+          if (statut=="EN COURS") {
             document.getElementById(button).style.visibility="visible";
           }
         }
       
 
-        function statut(statut,ref){
-          if (statut=="ok") {
+        function statut(statut){
+          if (statut=="TERMINÉE") {
             $('#modalok').modal('show');
           }
-          if (statut=="suspendue") {
+          if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
         }
@@ -206,7 +214,7 @@ if(isset($_POST['reprendre'])){
             <h1 class="titre m-5">LES DEMANDES</h1>
           
           <div>
-            <table class="table table-borderless" id="table" style="font-size:large;" >
+            <table class="table table-borderless" id="table" >
                 <thead>
                   <tr>
                     <th scope="col">Ref</th>
@@ -217,6 +225,7 @@ if(isset($_POST['reprendre'])){
                     <th scope="col">Type</th>
                     <th scope="col">Cause</th>
                     <th scope="col">Departement</th>
+                    <th scope="col">Priorite</th>
                     <th scope="col">Statut</th>
                     <th scope="col">Delai</th>
                   </tr>
@@ -234,6 +243,7 @@ if(isset($_POST['reprendre'])){
                     $type=$row['type'];
                     $cause=$row['cause'];
                     $depart=$row['departement'];
+                    $priorite=$row['priorite'];
                     $statut=$row['statut'];
                     $delai=$row['delai'];
                     $motif=$row['motifsuspension'];
@@ -245,9 +255,10 @@ if(isset($_POST['reprendre'])){
                     echo "<td>$type</td>";
                     echo "<td>$cause</td>";
                     echo "<td>$depart</td>";
+                    echo "<td>$priorite</td>";
                     echo "<td class='statut' onclick='statut(\"$statut\");infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$statut\",$delai,\"$motif\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td>
+                    echo "<td class='d-flex'>
                             <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
                             <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalupdate' style='visibility:hidden;font-size:small' onclick='getref($ref);'>mettre a jour</button>
                           </td></tr>";
@@ -264,7 +275,7 @@ if(isset($_POST['reprendre'])){
       <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
           <div class="modal-body m-5 d-flex align-items-center justify-content-around">
-            <button type="button" class="btn" style="background-color: #f4900c;color:white" data-dismiss='modal'>Valider la tache</button>
+            <button type="button" id="btnvalider" class="btn" style="background-color: #f4900c;color:white" onclick="openmodal();">Valider la tache</button>
             <button type="button" class="btn" style="background-color: #f4900c;color:white" data-toggle='modal' data-target='#modalsuspendre' data-dismiss='modal'>Suspendre la tache</button>
           </div>
         </div>
@@ -343,6 +354,23 @@ if(isset($_POST['reprendre'])){
             <button type="button" class="btn" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
             </div>
 
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  
+    <!-- Modal -->
+    <div class="modal fade" id="modalvalider" >
+      <div class="modal-dialog  modal-dialog-centered modal-xl" >
+        <div class="modal-content">
+          <div class="modal-body" id="modalvaliderbody">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>

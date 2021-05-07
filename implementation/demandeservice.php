@@ -57,7 +57,7 @@ function getTech($id)
 {
   global $conn;
 
-    $query3 = "select * from technicien where id=$id";
+    $query3 = "select * from technicien where idTechnicien='$id'";
     $result3 = mysqli_query($conn,$query3); 
     if ($result3) {
       $row2=mysqli_fetch_row($result3);
@@ -114,7 +114,6 @@ function getTech($id)
             height: fit-content;
             margin-top: 10%;
             margin-bottom: 10%;
-            padding: 0 5% 5% 5%;
             display: flex;
             align-items: center;
             align-self: center;
@@ -160,28 +159,28 @@ function getTech($id)
             document.getElementById(ref).style.color='red';
             document.getElementById(button).style.backgroundColor='red';
           }
-          if (statut=="ok") {
+          if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
             document.getElementById(check).style.visibility="visible";
 
           }
-          if (statut=="suspendue") {
+          if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
           }
-          if (statut=="en attente") {
+          if (statut=="EN ATTENTE") {
             document.getElementById(button).style.visibility="visible";
           }
         }
       
 
         function statut(statut){
-          if (statut=="ok") {
+          if (statut=="TERMINÉE") {
             $('#modalok').modal('show');
           }
-          if (statut=="suspendue") {
+          if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
-          if (statut=="en cours") {
+          if (statut=="EN COURS") {
             $('#modalencours').modal('show');
           }
         }
@@ -190,8 +189,8 @@ function getTech($id)
             document.getElementById('currentref').value=ref;
         }
 
-        function infos(ref,date,nom,contact,fonction,type,cause,depart,statut,delai,motif,idtech,nomtech,contacttech,servicetech,dispo){
-          if (statut=="en cours") {     
+        function infos(ref,date,nom,contact,fonction,type,cause,depart,priorite,statut,delai,motif,idtech,nomtech,contacttech,servicetech,dispo){
+          if (statut=="EN COURS") {     
             document.getElementById("refinfos1").innerText=ref;
             document.getElementById("date1").innerText=date;
             document.getElementById("nom1").innerText=nom;
@@ -200,6 +199,7 @@ function getTech($id)
             document.getElementById("type1").innerText=type;
             document.getElementById("cause1").innerText=cause;
             document.getElementById("depart1").innerText=depart;
+            document.getElementById("prio1").innerText=priorite;
             document.getElementById("statut1").innerText=statut;
             document.getElementById("delai1").innerText=delai; 
             
@@ -211,7 +211,7 @@ function getTech($id)
             
             
           }
-          if (statut=="suspendue") {     
+          if (statut=="SUSPENDUE") {     
             document.getElementById("refinfos2").innerText=ref;
             document.getElementById("date2").innerText=date;
             document.getElementById("nom2").innerText=nom;
@@ -220,6 +220,7 @@ function getTech($id)
             document.getElementById("type2").innerText=type;
             document.getElementById("cause2").innerText=cause;
             document.getElementById("depart2").innerText=depart;
+            document.getElementById("prio2").innerText=priorite;
             document.getElementById("statut2").innerText=statut;
             document.getElementById("delai2").innerText=delai;
             document.getElementById("motifsuspension2").innerText=motif;
@@ -248,7 +249,7 @@ function getTech($id)
             <h1 class="titre m-5">LES DEMANDES</h1>
           
           <div>
-            <table class="table table-borderless" id="table" style="font-size:large;" >
+            <table class="table table-borderless" id="table">
                 <thead>
                   <tr>
                     <th scope="col">Ref</th>
@@ -259,6 +260,7 @@ function getTech($id)
                     <th scope="col">Type</th>
                     <th scope="col">Cause</th>
                     <th scope="col">Departement</th>
+                    <th scope="col">Priorite</th>
                     <th scope="col">Statut</th>
                     <th scope="col">Delai</th>
                   </tr>
@@ -268,6 +270,11 @@ function getTech($id)
                   while($row = mysqli_fetch_assoc($result)){
                     $idtech=$row['idtech'];
                     $rowtech=getTech($idtech);
+                    $idtech2=$rowtech[0];
+                    $nomtech=$rowtech[5]." ".$rowtech[1];
+                    $contacttech=$rowtech[2];
+                    $servicetech=$rowtech[3];
+                    $dispo=$rowtech[4];
 
                     $button="button".$row['ref']."";
                     $check="check".$row['ref']."";
@@ -279,10 +286,11 @@ function getTech($id)
                     $type=$row['type'];
                     $cause=$row['cause'];
                     $depart=$row['departement'];
+                    $priorite=$row['priorite'];
                     $statut=$row['statut'];
                     $delai=$row['delai'];
                     $motif=$row['motifsuspension'];
-                    echo "<tr id='$ref'><th scope='row'>$ref</unset($_POST);th>";
+                    echo "<tr id='$ref'><th scope='row'>$ref</th>";
                     echo "<td>$date</td>";
                     echo "<td>$nom</td>";
                     echo "<td>$contact</td>";
@@ -290,9 +298,13 @@ function getTech($id)
                     echo "<td>$type</td>";
                     echo "<td>$cause</td>";
                     echo "<td>$depart</td>";
-                    echo "<td class='statut' onclick='statut(\"$statut\");infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$statut\",$delai,\"$motif\",$rowtech[0],\"$rowtech[1]\",$rowtech[2],\"$rowtech[3]\",\"$rowtech[4]\");'>$statut</td>";
+                    echo "<td>$priorite</td>";
+                    echo "<td class='statut' 
+                              onclick='statut(\"$statut\");
+                              infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\",
+                              \"$idtech2\",\"$nomtech\",\"$contacttech\",\"$servicetech\",\"$dispo\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td>
+                    echo "<td class='d-flex'>
                             <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
                             <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' onclick='getref($ref);'>attribuer</button>
                             </td></tr>";
@@ -307,21 +319,23 @@ function getTech($id)
 
 
     <div class="modal fade" id="modalattribuer">
-      <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-body p-5">
             <form action="#" class="form d-flex flex-column align-items-center justify-content-between" id="form" method="post">
               <div class="form-group">
-              <input type="text" name="currentref" id="currentref">
+              <input type="hidden" name="currentref" id="currentref">
                 <select class="form-control form-control-lg" name="idtech" id="idtech">
                   <option selected>Selectionner un technicien</option>
                     <?php
                       while($row2 = mysqli_fetch_assoc($result3)){
-                        $id=$row2['id'];
-                        $nomtech=$row2['nom'];
+                        $id=$row2['idTechnicien'];
+                        $nomtech=$row2['prenom']." ".$row2['nom'];
                         $contacttech=$row2['contact'];
                         $statuttech=$row2['statut'];
-                        echo "<option value=$id>$nomtech \t $contacttech \t $statuttech</option>";
+                        echo "<option value=$id>
+                                $nomtech &emsp;|&emsp; $contacttech &emsp;|&emsp; $statuttech
+                                </option>";
                       }
                     ?>
                 </select>
@@ -351,6 +365,7 @@ function getTech($id)
                     <td scope="col">Type</td>
                     <td scope="col">Cause</td>
                     <td scope="col">Departement</td>
+                    <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
                     <td scope="col">Delai</td>
                 </tr>
@@ -365,6 +380,7 @@ function getTech($id)
                   <td id="type1"></td>
                   <td id="cause1"></td>
                   <td id="depart1"></td>
+                  <td id="prio1"></td>
                   <td id="statut1"></td>
                   <td id="delai1"></td>
                 </tr>
@@ -422,6 +438,7 @@ function getTech($id)
                     <td scope="col">Type</td>
                     <td scope="col">Cause</td>
                     <td scope="col">Departement</td>
+                    <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
                     <td scope="col">Delai</td>
                 </tr>
@@ -436,6 +453,7 @@ function getTech($id)
                   <td id="type2"></td>
                   <td id="cause2"></td>
                   <td id="depart2"></td>
+                  <td id="prio2"></td>
                   <td id="statut2"></td>
                   <td id="delai2"></td>
                 </tr>

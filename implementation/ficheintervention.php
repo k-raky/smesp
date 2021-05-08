@@ -66,13 +66,11 @@ if(isset($_POST['button'])){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
     <style>
-         body{
+        body{
             width: 100%;
-            height: 100vh;
+            height: fit-content;
             display: flex;
-            flex-direction: column;
-            align-content: center;
-            padding: 10%;
+            justify-content: center;
         }
         p{
             font-weight: bold;
@@ -91,6 +89,7 @@ if(isset($_POST['button'])){
         input{
             text-align: center;
         }
+        
     </style>
 
   </head>
@@ -102,143 +101,153 @@ if(isset($_POST['button'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
  
-    <div class="d-flex justify-content-between">
-        <img src="images/logoesp.png">
-        <p>04/05/2021</p>
-    </div>
+   
+ 
+    <!-- Modal -->
+    <div class="modal fade" id="modalvalider">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="d-flex justify-content-between">
+                        <img src="images/logoesp.png">
+                        <p><?php echo date("d/m/Y"); ?></p>
+                    </div>
+                    <h3 class="modal-title m-5">Fiche d'Intervention</h3>       
+                </div>
+                <div class="modal-body">
+                   
+            
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th>Demandeur</th>
+                                    <th>Contact</th>
+                                    <th>Fonction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input readonly type="text" name="demandeur" id="demandeur"></td>
+                                    <td><input readonly type="text" name="contact" id="contactfiche"></td>
+                                    <td><input readonly type="text" name="fonction" id="fonctionfiche"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Type de maintenance</th>
+                                    <th>Type de defaillance</th>
+                                    <th>Priorite</th>
+                                    <th>Cause de la defaillance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> 
+                                            <input type="radio" name="typemaint" id="corr" >
+                                            <label for="corr">Corrective</label>
+                                            <div></div>
+                                            <input type="radio" name="typemaint" id="prev" >
+                                            <label for="prev">Preventive</label>  
+                                    </td>
+                                    <td><input readonly type="text" name="typefaille" id="typefiche"></td>
+                                    <td><input readonly type="text" name="priorite" id="prioritefiche"></td>
+                                    <td><input readonly type="text" name="cause" id="causefiche"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Intervenants</th>
+                                    <th>Visa Demandeur</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="d-flex flex-column">
+                                        <input type="text" name="interv1" id="interv1">
+                                        <input type="text" name="interv2" id="interv2">
+                                        <input type="text" name="interv3" id="interv3">
+                                        <input type="text" name="interv4" id="interv4">
+                                        <input type="text" name="interv5" id="interv5">
+                                    </td>
+
+                                    <td><textarea class="form-control" name="visa" id="visa" rows="5"></textarea></td>
+
+                                    <td class="d-flex justify-content-center align-items-center" >
+                                    <div class="d-flex flex-column align-items-end justify-content-evenly">
+                                    <label for="date">Date de l'Intervention</label>
+                                    <label for="lieu">Lieu de l'Intervention </label>
+                                    <label for="duree">Duree de l'Intervention </label>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-start justify-content-evenly">
+                                    <input type="date" name="date" id="date">
+                                        <input type="text" name="lieu" id="lieu">
+                                        <input readonly type="text" name="duree" id="duree">
+                                    </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div>
+                            <p>PIECES DE RECHANGES ET CONSOMMABLES</p>
+                        </div>
 
 
-    <div class=" m-5 ">
-        <p>Fiche d'Intervention</p>
-    </div>
-
-      <form action="#" method="post">
-        <div class="form-group">
-            <table class="table table-bordered ">
-                <thead>
-                    <tr>
-                        <th>Demandeur</th>
-                        <th>Contact</th>
-                        <th>Fonction</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" name="demandeur" id="demandeur"></td>
-                        <td><input type="text" name="contact" id="contact"></td>
-                        <td><input type="text" name="fonction" id="fonction"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Type de maintenance</th>
-                        <th>Type de defaillance</th>
-                        <th>Priorite</th>
-                        <th>Cause de la defaillance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> 
-                                <input type="radio" name="typemaint" id="corr" >
-                                <label for="corr">Corrective</label>
-                                <div></div>
-                                <input type="radio" name="typemaint" id="prev" >
-                                <label for="prev">Preventive</label>  
-                        </td>
-                        <td><input type="text" name="typefaille" id="typefaille"></td>
-                        <td><input type="text" name="priorite" id="priorite"></td>
-                        <td><input type="text" name="cause" id="cause"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Intervenants</th>
-                        <th>Visa Demandeur</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="d-flex flex-column">
-                            <input type="text" name="interv1" id="interv1">
-                            <input type="text" name="interv2" id="interv2">
-                            <input type="text" name="interv3" id="interv3">
-                            <input type="text" name="interv4" id="interv4">
-                            <input type="text" name="interv5" id="interv5">
-                        </td>
-
-                        <td><textarea class="form-control" name="visa" id="visa" rows="5"></textarea></td>
-
-                        <td class="d-flex justify-content-center align-items-center" >
-                           <div class="d-flex flex-column align-items-end justify-content-evenly">
-                           <label for="date">Date de l'Intervention</label>
-                           <label for="lieu">Lieu de l'Intervention </label>
-                           <label for="duree">Duree de l'Intervention </label>
-                           </div>
-                           <div class="d-flex flex-column align-items-start justify-content-evenly">
-                           <input type="date" name="date" id="date">
-                            <input type="text" name="lieu" id="lieu">
-                            <input type="text" name="duree" id="duree">
-                           </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div>
-                 <p>PIECES DE RECHANGES ET CONSOMMABLES</p>
-            </div>
-
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Quantite</th>
-                        <th>Marque/Reference</th>
-                        <th>Designation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="text" name="quant1" id="quant1">
-                            <input type="text" name="quant2" id="quant2">
-                            <input type="text" name="quant3" id="quant3">
-                            <input type="text" name="quant4" id="quant4">
-                            <input type="text" name="quant5" id="quant5">
-                        </td>
-                        <td>
-                            <input type="text" name="ref1" id="ref1">
-                            <input type="text" name="ref2" id="ref2">
-                            <input type="text" name="ref3" id="ref3">
-                            <input type="text" name="ref4" id="ref4">
-                            <input type="text" name="ref5" id="ref5">    
-                        </td>
-                        <td>
-                            <input type="text" name="design1" id="design1">
-                            <input type="text" name="design2" id="design2">
-                            <input type="text" name="design3" id="design3">
-                            <input type="text" name="design4" id="design4">
-                            <input type="text" name="design5" id="design5">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-             
-            <button type="submit" name="button">Valider</button>
-        </div>
-
-
-        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Quantite</th>
+                                    <th>Marque/Reference</th>
+                                    <th>Designation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="quant1" id="quant1">
+                                        <input type="text" name="quant2" id="quant2">
+                                        <input type="text" name="quant3" id="quant3">
+                                        <input type="text" name="quant4" id="quant4">
+                                        <input type="text" name="quant5" id="quant5">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="ref1" id="ref1">
+                                        <input type="text" name="ref2" id="ref2">
+                                        <input type="text" name="ref3" id="ref3">
+                                        <input type="text" name="ref4" id="ref4">
+                                        <input type="text" name="ref5" id="ref5">    
+                                    </td>
+                                    <td>
+                                        <input type="text" name="design1" id="design1">
+                                        <input type="text" name="design2" id="design2">
+                                        <input type="text" name="design3" id="design3">
+                                        <input type="text" name="design4" id="design4">
+                                        <input type="text" name="design5" id="design5">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <button type="submit" name="button">Valider</button>
+                    </div>
+                    </form>
     
-
+        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
  
   </body>
 </html>

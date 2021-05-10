@@ -30,7 +30,7 @@ if(isset($_POST['attribuer'])){
 
     echo "<script>alert($service)</script>";
 
-    $query2 = "update taches set statut='en attente',type='$service',delai=1 where ref=$currentref";
+    $query2 = "update taches set statut='EN ATTENTE',type='$service',delai=1 where ref=$currentref";
     $result2 = mysqli_query($conn,$query2); 
     if ($result2) {
       echo "<script>alert('Tache attribuee au service $service')</script>";
@@ -142,30 +142,32 @@ function getTech($id)
         });
 
 
-        function change(delai,ref,statut,button,type,check){
+        function change(delai,ref,statut,button1,type,button2){
           if (delai>4)
           {
             document.getElementById(ref).style.color='red';
-            document.getElementById(button).style.backgroundColor='red';
+            document.getElementById(button1).style.backgroundColor='red';
           }
           if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
-            document.getElementById(check).style.visibility="visible";
+            document.getElementById(button2).style.visibility="visible";
 
           }
           if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
           }
           if (type=="Autre") {
-            document.getElementById(button).style.visibility="visible";
+            document.getElementById(button1).style.visibility="visible";
           }
         }
       
 
+        function voirfiche(ref){
+          location.href="ficheremplie.php?refremplie="+ref;
+        }
+
+
         function statut(statut){
-          if (statut=="TERMINÉE") {
-            $('#modalok').modal('show');
-          }
           if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
@@ -174,8 +176,14 @@ function getTech($id)
           }
         }
 
-        function getref(ref){
-            document.getElementById('currentref').value=ref;
+        function getref(ref,nom,type,cause,priorite,message){
+            document.getElementById('currentref1').value=ref;
+            document.getElementById('currentref2').value=ref;
+            document.getElementById("nomautre").innerText=nom;
+            document.getElementById("typeautre").innerText=type;
+            document.getElementById("causeautre").innerText=cause;
+            document.getElementById("prioautre").innerText=priorite;
+            document.getElementById("message").innerText=message;
         }
 
         function infos(ref,date,nom,contact,fonction,type,cause,depart,priorite,statut,delai,motif,idtech,nomtech,contacttech,servicetech,dispo){
@@ -265,8 +273,8 @@ function getTech($id)
                     $servicetech=$rowtech[3];
                     $dispo=$rowtech[4];
 
-                    $button="button".$row['ref']."";
-                    $check="check".$row['ref']."";
+                    $button1="button1".$row['ref']."";
+                    $button2="button2".$row['ref']."";
                     $ref=$row['ref'];
                     $date=$row['date'];
                     $nom=$row['nom'];
@@ -279,6 +287,7 @@ function getTech($id)
                     $statut=$row['statut'];
                     $delai=$row['delai'];
                     $motif=$row['motifsuspension'];
+                    $message=$row['message'];
                     echo "<tr id='$ref'><th scope='row'>$ref</unset($_POST);th>";
                     echo "<td>$date</td>";
                     echo "<td>$nom</td>";
@@ -293,11 +302,13 @@ function getTech($id)
                               infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\",
                               \"$idtech2\",\"$nomtech\",\"$contacttech\",\"$servicetech\",\"$dispo\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td class='d-flex'>
-                            <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
-                            <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' onclick='getref($ref);'>attribuer</button>
+                    echo "<td class='d-flex flex-column'>
+                            
+                            <button class='btn-info btn-lg' id='$button1' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' 
+                            onclick='getref($ref,\"$nom\",\"$type\",\"$cause\",\"$priorite\",\"$message\");'>attribuer</button>
+                            <button class='btn-light btn-lg' id='$button2' style='visibility:hidden;font-size:small' onclick='voirfiche($ref);'>voir la fiche</button>
                             </td></tr>";
-                    echo "<script>change($delai,$ref,\"$statut\",\"$button\",\"$type\",\"$check\");</script>";
+                    echo "<script>change($delai,$ref,\"$statut\",\"$button1\",\"$type\",\"$button2\");</script>";
                     }
                   ?>
                   
@@ -308,12 +319,42 @@ function getTech($id)
 
 
     <div class="modal fade" id="modalattribuer">
-      <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-body p-5">
+
+          <div>
+            <p class="font-weight-bold">Informations sur la tache</p>
+            <table class="table">
+              <thead>
+                <tr class="text-info">
+                    <td>Ref</td>
+                    <td scope="col">Nom</td>
+                    <td scope="col">Type</td>
+                    <td scope="col">Cause</td>
+                    <td scope="col">Priorite</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="currentref1"></td>
+                  <td id="nomautre"></td>
+                  <td id="typeautre"></td>
+                  <td id="causeautre"></td>
+                  <td id="prioautre"></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-flex">
+            <p class="font-weight-bold">Message  : </p>
+            <p id="message" class="text-danger" style="margin-left: 15px;"></p>
+            </div>
+
+            </div>
             <form action="#" class="form d-flex flex-column align-items-center justify-content-between" id="form" method="post">
               <div class="form-group">
-              <input type="hidden" name="currentref" id="currentref">
+              <input type="hidden" name="currentref" id="currentref2">
                 <select class="form-control form-control-lg" name="service" id="service">
                   <option selected>Selectionner un service</option>
                   <option value="Menuiserie">- service menuiserie</option>
@@ -324,7 +365,7 @@ function getTech($id)
                   <option value="Video Projecteur">- video projecteur</option>
                 </select>
               </div>
-              <button type="submit" name="attribuer" style="background-color: #f4900c;color:white;width:30%; margin-top : 10px;" >Valider</button>
+              <button class="btn btn-sm" type="submit" name="attribuer" style="background-color: #f4900c;color:white;width:30%; margin-top : 10px;" >Valider</button>
             </form>
           </div>
         </div>

@@ -35,12 +35,14 @@ else {
 if(isset($_POST['attribuer'])){ 
     global $conn;
 
+    echo "<script>alert('isset attribuer')</script>";
+
     $currentref=$_POST['currentref'];
     $idtechnicien=$_POST['idtech']; 
 
-    echo "<script>alert($idtechnicien, $currentref)</script>";
+    echo "<script>alert('$idtechnicien', '$currentref')</script>";
 
-    $query2 = "update taches set statut='en cours',idtech=$idtechnicien,delai=1 where ref=$currentref";
+    $query2 = "update taches set statut='EN COURS',idtech=$idtechnicien,delai=1 where ref=$currentref";
     $result2 = mysqli_query($conn,$query2); 
     if ($result2) {
       echo "<script>alert('Tache attribuee au technicien $idtechnicien')</script>";
@@ -57,11 +59,11 @@ function getTech($id)
 {
   global $conn;
 
-    $query3 = "select * from technicien where idTechnicien='$id'";
-    $result3 = mysqli_query($conn,$query3); 
-    if ($result3) {
-      $row2=mysqli_fetch_row($result3);
-      return $row2;
+    $query4 = "select * from technicien where idTechnicien='$id'";
+    $result4 = mysqli_query($conn,$query4); 
+    if ($result4) {
+      $row4=mysqli_fetch_row($result4);
+      return $row4;
 
       echo "<script>alert('get tech')</script>";
     } 
@@ -153,36 +155,38 @@ function getTech($id)
         });
 
 
-        function change(delai,ref,statut,button,type,check){
+        function change(delai,ref,statut,button1,type,button2){
           if (delai>4)
           {
             document.getElementById(ref).style.color='red';
-            document.getElementById(button).style.backgroundColor='red';
+            document.getElementById(button1).style.backgroundColor='red';
           }
           if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
-            document.getElementById(check).style.visibility="visible";
+            document.getElementById(button2).style.visibility="visible";
 
           }
           if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
           }
           if (statut=="EN ATTENTE") {
-            document.getElementById(button).style.visibility="visible";
+            document.getElementById(button1).style.visibility="visible";
           }
         }
       
 
         function statut(statut){
-          if (statut=="TERMINÉE") {
-            $('#modalok').modal('show');
-          }
+         
           if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
           if (statut=="EN COURS") {
             $('#modalencours').modal('show');
           }
+        }
+
+        function voirfiche(ref){
+          location.href="ficheremplie.php?refremplie="+ref;
         }
 
         function getref(ref){
@@ -276,8 +280,8 @@ function getTech($id)
                     $servicetech=$rowtech[3];
                     $dispo=$rowtech[4];
 
-                    $button="button".$row['ref']."";
-                    $check="check".$row['ref']."";
+                    $button1="button1".$row['ref']."";
+                    $button2="button2".$row['ref']."";
                     $ref=$row['ref'];
                     $date=$row['date'];
                     $nom=$row['nom'];
@@ -304,11 +308,11 @@ function getTech($id)
                               infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\",
                               \"$idtech2\",\"$nomtech\",\"$contacttech\",\"$servicetech\",\"$dispo\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td class='d-flex'>
-                            <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
-                            <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' onclick='getref($ref);'>attribuer</button>
+                    echo "<td class='d-flex flex-column'>
+                            <button class='btn-info btn-lg' id='$button1' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' onclick='getref($ref);'>attribuer</button>
+                            <button class='btn-light btn-lg' id='$button2' style='visibility:hidden;font-size:small' onclick='voirfiche($ref);'>voir la fiche</button>
                             </td></tr>";
-                    echo "<script>change($delai,$ref,\"$statut\",\"$button\",\"$type\",\"$check\");</script>";
+                    echo "<script>change($delai,$ref,\"$statut\",\"$button1\",\"$type\",\"$button2\");</script>";
                     }
                   ?>
                   
@@ -324,7 +328,7 @@ function getTech($id)
           <div class="modal-body p-5">
             <form action="#" class="form d-flex flex-column align-items-center justify-content-between" id="form" method="post">
               <div class="form-group">
-              <input type="hidden" name="currentref" id="currentref">
+              <input type="text" name="currentref" id="currentref">
                 <select class="form-control form-control-lg" name="idtech" id="idtech">
                   <option selected>Selectionner un technicien</option>
                     <?php

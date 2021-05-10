@@ -13,40 +13,61 @@ if ($conn->connect_error) {
 //else echo "<script>alert('success')</script>";
 
 
-if(isset($_POST['button'])){ 
+if(isset($_POST['buttonsubmit'])){ 
 
   global $conn;
 
-  $nom=$_POST["demandeur"]; 
-  $contact=$_POST["contact"]; 
-  $fonction=$_POST["fonction"]; 
-  $typemaint=$_POST["typemaint"]; 
-  $typefaille=$_POST["typefaille"]; 
-  $priorite=$_POST["priorite"]; 
-  $cause=$_POST["cause"]; 
-  $inter=$_POST["intervenants"]; 
+  $reftache=$_POST["reftache"];
+  $datefiche=date("Y-m-d");
+  $typemaint=$_POST["typemaint"];
   $visa=$_POST["visa"]; 
-  $date=$_POST["date"]; 
+  $datetache=$_POST["datetache"]; 
   $lieu=$_POST["lieu"]; 
-  $duree=$_POST["duree"]; 
-  $quant=$_POST["quantite"]; 
-  $marque=$_POST["marque"];     
-  $desi=$_POST["desi"]; 
-
-
-    $query3 = "insert into fiche(demandeur,contact,fonction,typemaint,
-    typefaille,priorite,cause,intervenants,visa,date,lieu,duree,quantite,
-    marque,designation) values ('$nom',$contact,'$fonction','$typemaint','$typefaille','$priorite','$cause','$inter','$visa','$date','$lieu',
-    '$duree','$quant','$marque','$desi')";
+  $duree=$_POST["dureetache"];
+  
+    $query3 = "insert into fiche(reftache,datefiche,typemaint,visa,datetache,lieu,duree) values ($reftache,'$datefiche','$typemaint','$visa','$datetache','$lieu',$duree)";
     $result3 = mysqli_query($conn,$query3); 
     if ($result3) {
-     echo "<script>alert('ok')</script>";
+     echo "<script>alert('fiche saved')</script>";
     } 
     else {
     echo "<script>alert(erreur de requete : $conn->error)</script>";
     }
 
-  unset($_POST);
+    
+    function materielutilise($ref,$quant,$marque,$desi,$nom)
+    {
+        global $conn;
+       
+        $query4 = "insert into materielutilise(reftache,quantite,marque,designation) values ($ref,$quant,'$marque','$desi')";
+        $result4 = mysqli_query($conn,$query4); 
+        
+        $query5 = "insert into intervenants(reftache,nom) values ($ref,'$nom')";
+        $result5 = mysqli_query($conn,$query5); 
+        
+        if ($result4 && $result5) {
+            $query6 = "update taches set statut='TERMINÉE' where ref=$ref";
+            mysqli_query($conn,$query6);
+        } 
+        else {
+        echo "<script>alert(erreur de requete : $conn->error)</script>";
+        }
+
+    }
+   
+
+    for ($i=1; $i<6 ; $i++) { 
+        $quant=$_POST["quant".$i];
+        $marque=$_POST["marque".$i];
+        $desi=$_POST["design".$i];
+        $nom=$_POST["interv".$i];
+
+        materielutilise($reftache,$quant,$marque,$desi,$nom);
+    }
+
+    echo "<script>alert('tache terminee')</script>";
+
+    unset($_POST);
 
 }
 
@@ -56,7 +77,7 @@ if(isset($_POST['button'])){
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>Demande Technicien</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -68,7 +89,7 @@ if(isset($_POST['button'])){
     <style>
         body{
             width: 100%;
-            height: fit-content;
+            height: auto;
             display: flex;
             justify-content: center;
         }
@@ -108,11 +129,8 @@ if(isset($_POST['button'])){
         <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="d-flex justify-content-between">
-                        <img src="images/logoesp.png">
-                        <p><?php echo date("d/m/Y"); ?></p>
-                    </div>
                     <h3 class="modal-title m-5">Fiche d'Intervention</h3>       
+                        <p ><?php echo date("d/m/Y"); ?></p>
                 </div>
                 <div class="modal-body">
                    
@@ -122,6 +140,7 @@ if(isset($_POST['button'])){
                         <table class="table table-bordered ">
                             <thead>
                                 <tr>
+                                    <th>Reference</th>
                                     <th>Demandeur</th>
                                     <th>Contact</th>
                                     <th>Fonction</th>
@@ -129,9 +148,10 @@ if(isset($_POST['button'])){
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input readonly type="text" name="demandeur" id="demandeur"></td>
-                                    <td><input readonly type="text" name="contact" id="contactfiche"></td>
-                                    <td><input readonly type="text" name="fonction" id="fonctionfiche"></td>
+                                    <td><input type="text" name="reftache" id="reftache"></td>
+                                    <td id="demandeur"></td>
+                                    <td id="contactfiche"></td>
+                                    <td id="fonctionfiche"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,15 +168,15 @@ if(isset($_POST['button'])){
                             <tbody>
                                 <tr>
                                     <td> 
-                                            <input type="radio" name="typemaint" id="corr" >
+                                            <input type="radio" name="typemaint" value="corrective" >
                                             <label for="corr">Corrective</label>
                                             <div></div>
-                                            <input type="radio" name="typemaint" id="prev" >
+                                            <input type="radio" name="typemaint" value="preventive" >
                                             <label for="prev">Preventive</label>  
                                     </td>
-                                    <td><input readonly type="text" name="typefaille" id="typefiche"></td>
-                                    <td><input readonly type="text" name="priorite" id="prioritefiche"></td>
-                                    <td><input readonly type="text" name="cause" id="causefiche"></td>
+                                    <td id="typefiche"></td>
+                                    <td id="prioritefiche"></td>
+                                    <td id="causefiche"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -179,7 +199,7 @@ if(isset($_POST['button'])){
                                         <input type="text" name="interv5" id="interv5">
                                     </td>
 
-                                    <td><textarea class="form-control" name="visa" id="visa" rows="5"></textarea></td>
+                                    <td><textarea class="form-control" name="visa" id="visa" rows="3"></textarea></td>
 
                                     <td class="d-flex justify-content-center align-items-center" >
                                     <div class="d-flex flex-column align-items-end justify-content-evenly">
@@ -188,9 +208,9 @@ if(isset($_POST['button'])){
                                     <label for="duree">Duree de l'Intervention </label>
                                     </div>
                                     <div class="d-flex flex-column align-items-start justify-content-evenly">
-                                    <input type="date" name="date" id="date">
+                                    <input type="date" name="datetache" id="datetache">
                                         <input type="text" name="lieu" id="lieu">
-                                        <input readonly type="text" name="duree" id="duree">
+                                        <input readonly type="text" name="dureetache" id="dureetache">
                                     </div>
                                     </td>
                                 </tr>
@@ -220,11 +240,11 @@ if(isset($_POST['button'])){
                                         <input type="text" name="quant5" id="quant5">
                                     </td>
                                     <td>
-                                        <input type="text" name="ref1" id="ref1">
-                                        <input type="text" name="ref2" id="ref2">
-                                        <input type="text" name="ref3" id="ref3">
-                                        <input type="text" name="ref4" id="ref4">
-                                        <input type="text" name="ref5" id="ref5">    
+                                        <input type="text" name="marque1" id="marque1">
+                                        <input type="text" name="marque2" id="marque2">
+                                        <input type="text" name="marque3" id="marque3">
+                                        <input type="text" name="marque4" id="marque4">
+                                        <input type="text" name="marque5" id="marque5">    
                                     </td>
                                     <td>
                                         <input type="text" name="design1" id="design1">
@@ -237,13 +257,13 @@ if(isset($_POST['button'])){
                             </tbody>
                         </table>
                         
-                        <button type="submit" name="button">Valider</button>
+                        <button type="submit" name="buttonsubmit">Valider</button>
                     </div>
                     </form>
     
         </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

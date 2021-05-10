@@ -1,6 +1,7 @@
 <?php
 
-require("ficheintervention.php");
+  require("ficheintervention.php");
+
 
 $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
 $username = "ulsartcj6ukxsuwr";
@@ -32,7 +33,7 @@ if(isset($_POST['suspendre'])){
     $motif=$_POST['motif'];
     $refsus=$_POST['refsus'];  
 
-    $query3 = "update taches set statut='suspendue',motifsuspension='$motif' where ref=$refsus";
+    $query3 = "update taches set statut='SUSPENDUE',motifsuspension='$motif' where ref=$refsus";
     $result3 = mysqli_query($conn,$query3); 
     if ($result3) {
       echo "<script>alert('tache suspendue')</script>";
@@ -50,7 +51,7 @@ if(isset($_POST['reprendre'])){
   global $conn;
   $refrep=$_POST['refrep'];  
 
-  $query4 = "update taches set statut='en cours',motifsuspension=NULL where ref=$refrep;";
+  $query4 = "update taches set statut='EN COURS',motifsuspension=NULL where ref=$refrep;";
   $result4 = mysqli_query($conn,$query4); 
   if ($result4) {
     echo "<script>alert('tache reprise')</script>";
@@ -86,7 +87,7 @@ if(isset($_POST['reprendre'])){
             background-size: cover;
             background-blend-mode:overlay;
             width: 100%;
-            height: fit-content;
+            height: auto;
             display: flex;
             justify-content: center;
         }
@@ -146,39 +147,35 @@ if(isset($_POST['reprendre'])){
         }
 
 
-        function change(delai,ref,statut,button,check){
+        function change(delai,ref,statut,button1,button2){
 
           if (delai>4)
           {
             document.getElementById(ref).style.color='red';
-            document.getElementById(button).style.backgroundColor='red';
+            document.getElementById(button1).style.backgroundColor='red';
           }
           if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
-            document.getElementById(check).style.visibility="visible";
+            document.getElementById(button2).style.visibility="visible";
 
           }
           if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
           }
           if (statut=="EN COURS") {
-            document.getElementById(button).style.visibility="visible";
+            document.getElementById(button1).style.visibility="visible";
           }
         }
       
 
         function statut(statut){
-          if (statut=="TERMINÉE") {
-            $('#modalok').modal('show');
-          }
           if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
         }
 
-
-        function getref(ref){
-            document.getElementById('refsus').value=ref;
+        function voirfiche(ref){
+          location.href="ficheremplie.php?refremplie="+ref;
         }
 
         function infos(ref,date,nom,contact,fonction,type,cause,depart,prio,statut,delai,motif){
@@ -195,23 +192,26 @@ if(isset($_POST['reprendre'])){
           document.getElementById("delai").innerText=delai;
           document.getElementById("motifsuspension").innerText=motif;
           document.getElementById("refrep").value=ref;
+          
         }
 
-        function infos2(nom,contact,fonction,type,cause,prio,delai){
-          document.getElementById("demandeur").value=nom;
-          document.getElementById("contactfiche").value=contact;
-          document.getElementById("fonctionfiche").value=fonction;
-          document.getElementById("typefiche").value=type;
-          document.getElementById("causefiche").value=cause;
-          document.getElementById("prioritefiche").value=prio;
-          document.getElementById("duree").value=delai;
+        function infos2(ref,nom,contact,fonction,type,cause,prio,delai){
+          document.getElementById('refsus').value=ref;
+          document.getElementById("reftache").value=ref;
+          document.getElementById("demandeur").innerText=nom;
+          document.getElementById("contactfiche").innerText=contact;
+          document.getElementById("fonctionfiche").innerText=fonction;
+          document.getElementById("typefiche").innerText=type;
+          document.getElementById("causefiche").innerText=cause;
+          document.getElementById("prioritefiche").innerText=prio;
+          document.getElementById("dureetache").value=delai;
         }
        
         
     </script>
 
 
-      <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: white;">
+      <nav class="navbar navbar-expand-sm navbar-darkElectricite fixed-top" style="background-color: white;">
         <i class="fas fa-tools fa-2x x-5" style="color: #f4900c;"></i>
            <a class="navbar-brand" href="#accueil.html">SMESP</a>
        </nav>
@@ -242,8 +242,8 @@ if(isset($_POST['reprendre'])){
                 <tbody>
                   <?php
                   while($row = mysqli_fetch_assoc($result)){
-                    $button="button".$row['ref']."";
-                    $check="check".$row['ref']."";
+                    $button1="button1".$row['ref']."";
+                    $button2="button2".$row['ref']."";
                     $ref=$row['ref'];
                     $date=$row['date'];
                     $nom=$row['nom'];
@@ -267,14 +267,14 @@ if(isset($_POST['reprendre'])){
                     echo "<td>$priorite</td>";
                     echo "<td class='statut' onclick='statut(\"$statut\");infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\");'>$statut</td>";
                     echo "<td>$delai</td>";
-                    echo "<td class='d-flex'>
-                            <i class='fas fa-check' id=$check style='visibility:hidden;'></i>
-                            <button class='btn-info btn-lg' id='$button' data-toggle='modal' data-target='#modalupdate' style='visibility:hidden;font-size:small' 
-                            onclick='getref($ref);
-                            infos2(\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$priorite\",$delai);
+                    echo "<td class='d-flex flex-column'>
+                            <button class='btn-info btn-lg' id='$button1' data-toggle='modal' data-target='#modalupdate' style='visibility:hidden;font-size:small' 
+                            onclick='
+                            infos2($ref,\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$priorite\",$delai);
                             '>mettre a jour</button>
+                            <button class='btn-light btn-lg' id='$button2' style='visibility:hidden;font-size:small' onclick='voirfiche($ref);'>voir la fiche</button>
                           </td></tr>";
-                    echo "<script> change($delai,$ref,'$statut','$button','$check');</script>";
+                    echo "<script> change($delai,$ref,'$statut','$button1','$button2');</script>";
                     }
                   ?>
                   
@@ -282,6 +282,7 @@ if(isset($_POST['reprendre'])){
               </table>
           </div>
         </div>
+
 
     <div class="modal fade" id="modalupdate">
       <div class="modal-dialog modal-dialog-centered modal-md">

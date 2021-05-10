@@ -40,9 +40,9 @@ if(isset($_POST['attribuer'])){
     $currentref=$_POST['currentref'];
     $idtechnicien=$_POST['idtech']; 
 
-    echo "<script>alert('$idtechnicien', '$currentref')</script>";
+    echo "<script>alert('$idtechnicien $currentref')</script>";
 
-    $query2 = "update taches set statut='EN COURS',idtech=$idtechnicien,delai=1 where ref=$currentref";
+    $query2 = "update taches set statut='EN COURS',idtech='$idtechnicien',delai=1 where ref=$currentref";
     $result2 = mysqli_query($conn,$query2); 
     if ($result2) {
       echo "<script>alert('Tache attribuee au technicien $idtechnicien')</script>";
@@ -126,8 +126,10 @@ function getTech($id)
           margin-bottom: 25px;
         }
         .form-control{
-          line-height: 100px;
-          
+          line-height: 100px; 
+        }
+        table{
+            text-align: center;
         }
        
     </style>
@@ -266,7 +268,7 @@ function getTech($id)
                     <th scope="col">Departement</th>
                     <th scope="col">Priorite</th>
                     <th scope="col">Statut</th>
-                    <th scope="col">Delai</th>
+                    <th scope="col">Durée</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -371,7 +373,7 @@ function getTech($id)
                     <td scope="col">Departement</td>
                     <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
-                    <td scope="col">Delai</td>
+                    <td scope="col">Durée</td>
                 </tr>
               </thead>
               <tbody>
@@ -444,7 +446,7 @@ function getTech($id)
                     <td scope="col">Departement</td>
                     <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
-                    <td scope="col">Delai</td>
+                    <td scope="col">Durée</td>
                 </tr>
               </thead>
               <tbody>

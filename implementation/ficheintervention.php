@@ -25,15 +25,6 @@ if(isset($_POST['buttonsubmit'])){
   $lieu=$_POST["lieu"]; 
   $duree=$_POST["dureetache"];
   
-    $query3 = "insert into fiche(reftache,datefiche,typemaint,visa,datetache,lieu,duree) values ($reftache,'$datefiche','$typemaint','$visa','$datetache','$lieu',$duree)";
-    $result3 = mysqli_query($conn,$query3); 
-    if ($result3) {
-     echo "<script>alert('fiche saved')</script>";
-    } 
-    else {
-    echo "<script>alert(erreur de requete : $conn->error)</script>";
-    }
-
     
     function materielutilise($ref,$quant,$marque,$desi,$nom)
     {
@@ -48,6 +39,7 @@ if(isset($_POST['buttonsubmit'])){
         if ($result4 && $result5) {
             $query6 = "update taches set statut='TERMINÉE' where ref=$ref";
             mysqli_query($conn,$query6);
+            echo "<script>alert('tache terminee')</script>";
         } 
         else {
         echo "<script>alert(erreur de requete : $conn->error)</script>";
@@ -55,7 +47,6 @@ if(isset($_POST['buttonsubmit'])){
 
     }
    
-
     for ($i=1; $i<6 ; $i++) { 
         $quant=$_POST["quant".$i];
         $marque=$_POST["marque".$i];
@@ -65,7 +56,15 @@ if(isset($_POST['buttonsubmit'])){
         materielutilise($reftache,$quant,$marque,$desi,$nom);
     }
 
-    echo "<script>alert('tache terminee')</script>";
+    $query3 = "insert into fiche(reftache,datefiche,typemaint,visa,datetache,lieu,duree) values ($reftache,'$datefiche','$typemaint','$visa','$datetache','$lieu',$duree)";
+    $result3 = mysqli_query($conn,$query3); 
+    if ($result3) {
+     echo "<script>alert('fiche enregistree')</script>";
+     echo "<script>location.href='demandetech.php';</script>";
+    } 
+    else {
+    echo "<script>alert(erreur de requete : $conn->error)</script>";
+    }
 
     unset($_POST);
 
@@ -96,7 +95,7 @@ if(isset($_POST['buttonsubmit'])){
         p{
             font-weight: bold;
         }
-        thead{
+        #thead{
             color: #3c95a8;
             background-color: #dcdcdc;
         }
@@ -104,10 +103,7 @@ if(isset($_POST['buttonsubmit'])){
             font-weight: bold;
             color: #3c95a8;
         }
-        div{
-            text-align: center;
-        }
-        input{
+        input ,textarea, div{
             text-align: center;
         }
         
@@ -138,7 +134,7 @@ if(isset($_POST['buttonsubmit'])){
                 <form action="#" method="post">
                     <div class="form-group">
                         <table class="table table-bordered ">
-                            <thead>
+                            <thead id="thead">
                                 <tr>
                                     <th>Reference</th>
                                     <th>Demandeur</th>
@@ -157,7 +153,7 @@ if(isset($_POST['buttonsubmit'])){
                         </table>
 
                         <table class="table table-bordered">
-                            <thead>
+                            <thead id="thead">
                                 <tr>
                                     <th>Type de maintenance</th>
                                     <th>Type de defaillance</th>
@@ -182,7 +178,7 @@ if(isset($_POST['buttonsubmit'])){
                         </table>
 
                         <table class="table table-bordered">
-                            <thead>
+                            <thead id="thead">
                                 <tr>
                                     <th>Intervenants</th>
                                     <th>Visa Demandeur</th>
@@ -223,7 +219,7 @@ if(isset($_POST['buttonsubmit'])){
 
 
                         <table class="table table-bordered">
-                            <thead>
+                            <thead id="thead">
                                 <tr>
                                     <th>Quantite</th>
                                     <th>Marque/Reference</th>

@@ -116,6 +116,9 @@ function getTech($id)
           line-height: 100px;
           
         }
+        table{
+            text-align: center;
+        }
        
     </style>
 </head>
@@ -259,7 +262,7 @@ function getTech($id)
                     <th scope="col">Departement</th>
                     <th scope="col">Priorite</th>
                     <th scope="col">Statut</th>
-                    <th scope="col">Delai</th>
+                    <th scope="col">Durée</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -392,7 +395,7 @@ function getTech($id)
                     <td scope="col">Departement</td>
                     <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
-                    <td scope="col">Delai</td>
+                    <td scope="col">Durée</td>
                 </tr>
               </thead>
               <tbody>
@@ -465,7 +468,7 @@ function getTech($id)
                     <td scope="col">Departement</td>
                     <td scope="col">Priorite</td>
                     <td scope="col">Statut</td>
-                    <td scope="col">Delai</td>
+                    <td scope="col">Durée</td>
                 </tr>
               </thead>
               <tbody>

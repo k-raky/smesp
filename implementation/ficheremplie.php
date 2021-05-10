@@ -182,9 +182,9 @@ if ($conn->connect_error) {
 
                                     <td >
                                         <div class="d-flex flex-column align-items-start" style="margin-left: 30%;"> 
-                                           <p><strong class="text-info">Lieu de l'Intervention : </strong> &ensp; <?php echo $row2[6] ?> jours</p>
-                                            <p><strong class="text-info"> Date de l'Intervention : </strong>&ensp; <?php echo $row2[5] ?></p>
-                                            <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2[4] ?></p>
+                                            <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2[6] ?>&nbsp;jours</p>
+                                            <p><strong class="text-info"> Date de l'Intervention : </strong>&ensp; <?php echo $row2[4] ?></p>
+                                           <p><strong class="text-info">Lieu de l'Intervention : </strong> &ensp; <?php echo $row2[5] ?></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -193,7 +193,7 @@ if ($conn->connect_error) {
 
 
                         <div class="m-3">
-                            <h4>PIECES DE RECHANGES ET CONSOMMABLES</h4>
+                            <h5>PIECES DE RECHANGES ET CONSOMMABLES</h5>
                         </div>
 
 
@@ -220,7 +220,7 @@ if ($conn->connect_error) {
                         </table>
 
 
-                <a href="javascript:history.back()" class="btn btn-lg m-5 btn-info">ok</a>
+                <a href="javascript:history.back().reload()" class="btn btn-lg m-5 btn-info">ok</a>
   </body>
 </html>
 

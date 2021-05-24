@@ -1,40 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Service de Maintenace</title>
+    <title>Service de Maintenance</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="Public/css/styles.css">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+    <style>
+     body {
+            background-color: rgba(255, 255, 255, 0.733);
+            background-image: url("Public/img/repair.jpg");
+            background-repeat: no-repeat;
+            background-size:contain;
+            background-position: right;
+            background-blend-mode:overlay;
+            height: 100vh;
+            width: 100%;
+        }
+      .rond{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 5%;
+            box-shadow: 0 0 0 1px #3c95ae, 1px 1px 7px 1px #3c95ae;
+           margin-right: 15%;
+      }
+      
+    </style>
+  
   </head>
-  <body class="container m-auto">
-    <header id="home" class="mt-4 mb-5">
-      <div class="row justify-content-center">
-        <a href="#" class="col-lg-2 col-sm-2">
-          <img
-            src="Public/img/logo.png"
-            width="150"
-            height="150"
-            class="d-inline-block align-top"
-          />
-        </a>
-        <div class="col-lg-9 col-sm-9 text-center ml-5">
-            <h1>École Supérieure Polytechnique de Dakar</h1>
-            <p class="text-muted mb-4">Service de Maintenace</p>
-          </div>
-      </div>
-    </header>
 
-    <section class="overflow-hidden d-flex mt-1 m-auto">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h3 class="display-4">Demande D'intervention!</h3>
+  <body class="container-fluid ">
+  
+  <nav class="navbar navbar-expand-lg d-flex align-items-start pl-5">
+  <a class="navbar-brand" href="#">
+        <img
+        src="Public/img/logo.png"
+        width="150"
+        height="150"
+        class="d-inline-block align-top"
+        />
+      </a>
+    <div class="text-center my-auto">
+         <h1>École Supérieure Polytechnique de Dakar</h1>
+            <p class="text-muted">Service de Maintenance</p>
+    </div>
+       </nav>
+  
+</div>
+   <div class="container-fluid d-flex justify-content-between"> 
+
+          <div class="col-lg-3 indexImg ">
+          <img src="Public/img/techniciens.jpg" class="img-fluid" alt="something"/>
+        </div>
+
+        <div class="rond rounded-circle col-lg-4">
+          <i class="fa fa-user-circle fa-5x mb-3" style="color: #3c95ae;"></i>
           <p class="text-muted mb-4">Connectez-vous avec votre mail esp.sn</p>
           <form method="post" action="">
               <div class="form-group" class="mb-3">
@@ -57,26 +89,16 @@
               <div class="custom-control custom-checkbox mb-3">
                   <input id="customCheck1" type="checkbox" checked class="custom-control-input"/>
               </div>
-              <button type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
+              <button type="submit" class="btn btn-info btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
           </form>
           </div>
-          <div class="col-lg-6 indexImg pr-0">
-          <img src="Public/img/techniciens.jpg" class="img-fluid" alt="something"/>
-        </div>
-        </div>
-      </div>
-  </section>
+   </div>
+      
 
-  <footer id="footer" class="h-100 pt-5 mt-5">
-    <div class="container">
-      <div class="row d-flex ">
-        <div class="col-lg-12 text-center">
-          <div class="copyright">
-            &copy; Copyright <strong>DIABI</strong>. All Rights Reserved
-          </div>
-            Designed by DIABI
-        </div>
-      </div>
+  <footer id="footer" class="fixed-bottom p-3">
+    <div class="container-fluid d-flex justify-content-between">
+          <p>&copy; Copyright <strong>DIABI</strong>. All Rights Reserved</p>
+          <p>Designed by DIABI</p>
     </div>
   </footer>
 

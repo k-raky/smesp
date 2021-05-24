@@ -20,7 +20,7 @@ if ($conn->connect_error) {
         $query1 = "SELECT * FROM taches where ref=$ref";
         $result1 = mysqli_query($conn,$query1); 
         if ($result1) {
-        $row1=mysqli_fetch_row($result1);
+        $row1=mysqli_fetch_assoc($result1);
         // echo "<script>alert('ok')</script>";
         } 
         else {
@@ -30,7 +30,7 @@ if ($conn->connect_error) {
         $query2 = "SELECT * FROM fiche where reftache=$ref";
         $result2 = mysqli_query($conn,$query2); 
         if ($result2) {
-        $row2=mysqli_fetch_row($result2);
+        $row2=mysqli_fetch_assoc($result2);
         // echo "<script>alert('ok')</script>";
         } 
         else {
@@ -113,11 +113,11 @@ if ($conn->connect_error) {
    
  
                     <div class=" container-fluid d-flex justify-content-between">
-                        <img src="images/logoesp.png">
-                        <p><?php echo $row2[2] ?></p>
+                        <img src="Public/img/logo.png" width="100px" height="100px">
+                        <p><?php echo $row2['datefiche'] ?></p>
                     </div>
 
-                    <h2 class=" m-5">Fiche d'Intervention N° <?php echo $row2[0] ?></h2>       
+                    <h2 class=" m-5">Fiche d'Intervention N° <?php echo $row2['numero'] ?></h2>       
 
 
                         <table class="table table-bordered ">
@@ -131,10 +131,10 @@ if ($conn->connect_error) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row1[13] ?></td>
-                                    <td id="nomremplie"> <?php echo $row1[1] ?></td>
-                                    <td id="contactremplie"><?php echo $row1[2] ?></td>
-                                    <td id="fonctionremplie"><?php echo $row1[3] ?></td>
+                                    <td> <?php echo $row1['ref'] ?></td>
+                                    <td id="nomremplie"> <?php echo $row1['nom'] ?></td>
+                                    <td id="contactremplie"><?php echo $row1['contact'] ?></td>
+                                    <td id="fonctionremplie"><?php echo $row1['fonction'] ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -150,10 +150,10 @@ if ($conn->connect_error) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td id="typemaintremplie"><?php echo $row2[7] ?></td>
-                                    <td id="typefailleremplie"><?php echo $row1[4] ?></td>
-                                    <td id="prioriteremplie"><?php echo $row1[11] ?></td>
-                                    <td id="causeremplie"><?php echo $row1[5] ?></td>
+                                    <td id="typemaintremplie"><?php echo $row2['typemaint'] ?></td>
+                                    <td id="typefailleremplie"><?php echo $row1['type'] ?></td>
+                                    <td id="prioriteremplie"><?php echo $row1['priorite'] ?></td>
+                                    <td id="causeremplie"><?php echo $row1['cause'] ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -178,13 +178,13 @@ if ($conn->connect_error) {
                                     ?>
                                 </td>
 
-                                    <td id="visaremplie"><?php echo $row2[3] ?></td>
+                                    <td id="visaremplie"><?php echo $row2['visa'] ?></td>
 
                                     <td >
                                         <div class="d-flex flex-column align-items-start" style="margin-left: 30%;"> 
-                                            <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2[6] ?>&nbsp;jours</p>
-                                            <p><strong class="text-info"> Date de l'Intervention : </strong>&ensp; <?php echo $row2[4] ?></p>
-                                           <p><strong class="text-info">Lieu de l'Intervention : </strong> &ensp; <?php echo $row2[5] ?></p>
+                                            <p><strong class="text-info"> Date de l'Intervention : </strong>&ensp; <?php echo $row2['datetache'] ?></p>
+                                            <p><strong class="text-info">Lieu de l'Intervention : </strong> &ensp; <?php echo $row2['lieu'] ?></p>
+                                            <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2['duree'] ?>&nbsp;jours</p>
                                         </div>
                                     </td>
                                 </tr>

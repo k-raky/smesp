@@ -5,7 +5,7 @@
 
 
 .menu > li > a.active {
-  background-color: #370075 !important;
+  background-color:#3c95a8 !important;
 }
 
 .sidebar {
@@ -52,6 +52,22 @@
     display: flex;
     width: 100%;
 }
+
+.nav .nav-item .nav-link {
+  color:black;
+}
+
+.nav .nav-item .nav-link.active {
+  color: white;
+}
+
+th{
+  text-align: center;
+}
+
+th.dt-center, td.dt-center 
+{ text-align: center; }
+
 
 
 /*CHEF SUP*/

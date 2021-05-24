@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Service de Maintenace</title>
+    <title>Service de Maintenance</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,6 +19,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
+    <style>
+     
+    </style>
   </head>
 
   <body class="body">
@@ -27,6 +30,12 @@
     $titre=$_SESSION['titre'];
 
     $service=$_SESSION['service'];
+
+    $idUser=$_SESSION['idUser'];  
+
+    $nom=$_SESSION['nom'];
+
+    $contact=$_SESSION['contact'];
 
     switch ($titre) {
 
@@ -44,7 +53,7 @@
         break;
 
         case "AUCUN":
-        $AllTasks=getSpecificTasks($service);
+        $AllTasks=getTechTasks($idUser);
         $AllWaitingTasks=getWaitingSpecificTasks($service);
         $AllTechs=getAllSpecificTech($service);
         break;
@@ -59,22 +68,14 @@
     <div class="row">
       <div class="col-2 col-md-3 col-xl-2 px-0 px-sm-2 sidebar">
 
-        <div class="pt-4 px-4 align-items-center">
+        <div class="pt-4 px-4 d-flex justify-content-center align-items-center">
         
-          <img src="/Public/img/avatar.png" alt="IMG" width="80" height="80" class="rounded-circle">
-          <div class="mx-auto my-3">PRINCE ESP 
-            <a href="#" class=" d-sm-inline align-items-center text-white text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"></a>
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" checked id="customSwitch1">
-              <label class="custom-control-label" for="customSwitch1">Disponible</label>
+          <img src="/Public/img/avatar.png" alt="IMG" width="100" height="100" class="rounded-circle">
+            <div class="m-3"> 
+              <strong><?php echo $nom; ?></strong>
+              <p><?php echo $idUser."<br/>".$contact; ?></p>
+              <a name="logout" href="index.php?action=logout" >Se Deconnecter</a>
             </div>
-            <div class="inline justify-content-beetween">
-              <a class="" href="#">Settings</a>
-              <a class="" href="#">Profile</a>
-              <a name="logout" href="index.php?action=logout" >Log Out</a>
-            </div>        
-        
-          </div>
         </div>
         
         <hr>
@@ -89,29 +90,29 @@
 
             <li class="nav-item p-2">
               <a class="nav-link active align-middle w-100 " data-toggle="pill" href="#home">
-              <i class="fas fa-home fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Home</span>
+              <i class="fas fa-home fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Accueil</span>
               </a>
             </li>
           
             
             <li class="nav-item p-2">
               <a class="nav-link w-100 align-middle" data-toggle="pill" href="#tasks">
-              <i class="fas fa-tasks fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Orders</span></a>
+              <i class="fas fa-tasks fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Taches</span></a>
             </li>
 
             <li class="nav-item p-2">
               <a class="nav-link w-100 align-middle" data-toggle="pill" href="#techniciens">
-              <i class="fas fa-user-md fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Techniciens</span> </a>
+              <i class="fas fa-user-md fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Techniciens</span> </a>
             </li>
 
             <li class="nav-item p-2">
               <a class="nav-link w-100 align-middle" data-toggle="pill" href="#stocks">
-              <i class="fas fa-tools fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Stocks</span> </a>
+              <i class="fas fa-tools fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Stocks</span> </a>
             </li>
 
             <li class="nav-item p-2">
               <a class="nav-link w-100 align-middle" data-toggle="pill" href="#fiche">
-              <i class="far fa-chart-bar"tyle="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Statistiques</span></a>
+              <i class="far fa-chart-bar" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Statistiques</span></a>
             </li>
 
             <?php
@@ -121,37 +122,35 @@
 
               <li class="nav-item p-2">
                 <a class="nav-link active align-middle w-100 " data-toggle="pill" href="#home">
-                <i class="fas fa-home fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Home</span>
+                <i class="fas fa-home fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Accueil</span>
                 </a>
               </li>
             
               
               <li class="nav-item p-2">
                 <a class="nav-link w-100 align-middle" data-toggle="pill" href="#tasks">
-                <i class="fas fa-tasks fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Orders</span></a>
+                <i class="fas fa-tasks fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Taches</span></a>
               </li>
 
               <li class="nav-item p-2">
                 <a class="nav-link w-100 align-middle" data-toggle="pill" href="#techniciens">
-                <i class="fas fa-user-md fa-lg" style="color: #339af0;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Techniciens</span> </a>
+                <i class="fas fa-user-md fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Techniciens</span> </a>
               </li>
 
             <?php } ?>
             
           </ul>
-
         </div>
       </div>
       <div class="col-10">
         <!-- Tab panes -->
         <div class="tab-content ml-4">
         
-          <div class="tab-pane container-fluid active" id="home">
-            <?php include("Vue/Home.php")?>
-          </div>
-          <div class="tab-pane container-fluid fade" id="tasks"><?php include("Vue/Orders.php")?></div>
-          <div class="tab-pane container-fuild fade" id="techniciens"><?php include("Vue/Techniciens.php")?></div>
-          <div class="tab-pane container-fuild fade" id="fiche">Les Fiches</div>
+          <div class="tab-pane fade show active" id="home"><?php include_once("Vue/Home.php");?></div>
+          <div class="tab-pane fade" id="tasks"><?php include_once("Vue/Orders.php");?></div>
+          <div class="tab-pane fade" id="techniciens"><?php include_once("Vue/Techniciens.php");?></div>
+          <div class="tab-pane fade" id="stocks"><?php include_once("Vue/Stock.php");?></div>
+          <div class="tab-pane fade" id="fiche"><?php include_once("Vue/Statistiques.php");?></div>
 
         </div>
 

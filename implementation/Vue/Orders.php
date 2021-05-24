@@ -26,7 +26,7 @@
  
   <body>       
     <div class="container-fluid">
-    <!-- <?php 
+     <?php 
   
       //STOCKER LES VARIABLES EN FONCTIONS DE LA PERSONNE CONNECTÉE
       $titre=$_SESSION['titre'];
@@ -45,13 +45,15 @@
           break;
 
         case "AUCUN":
+          $AllTasks=getTechTasks($_SESSION["idUser"]);
+          include("ficheintervention.php");
           break;
         
         default:
           break;
       }
 
-    ?> -->
+    ?> 
 
       <h2 class="card-title mt-5">Tâches</h2>
 
@@ -62,7 +64,7 @@
               if (mysqli_num_rows($AllTasks) > 0) {
 
             ?>
-            <table id="allTasks" class="row-border hover" data-page-length='10' style="width:100%" >
+           <table id="allTasks" class="row-border hover align-items-center" data-page-length='10' style="width:100%" >
               <thead>
                 <tr>
                   <th scope="col">Ref</th>
@@ -76,22 +78,26 @@
                   <th scope="col">Priorite</th>
                   <th scope="col">Statut</th>
                   <th scope="col">Durée</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
               <?php
                 while($row = mysqli_fetch_assoc($AllTasks)){
+
                   $idtech=$row['idtech'];
                   $rowtech=getTech($idtech);
-                  $idtech2=$rowtech[0];
-                  $nomtech=$rowtech[5]." ".$rowtech[1];
-                  $contacttech=$rowtech[2];
-                  $servicetech=$rowtech[3];
-                  $dispo=$rowtech[4];
+                  $idtech2=$rowtech['idTechnicien'];
+                  $nomtech=$rowtech['prenom']." ".$rowtech['nom'];
+                  $contacttech=$rowtech['contact'];
+                  $servicetech=$rowtech['service'];
+                  $dispo=$rowtech['statut'];
 
                   $button1="button1".$row['ref']."";
                   $button2="button2".$row['ref']."";
                   $button3="button3".$row['ref']."";
+                  $button4="button4".$row['ref']."";
+
                   $ref=$row['ref'];
                   $date=$row['date'];
                   $nom=$row['nom'];
@@ -115,36 +121,135 @@
                   echo "<td>$depart</td>";
                   echo "<td>$priorite</td>";
                   echo "<td class='statut' 
-                            onclick='statut(\"$statut\");
+                            onclick='statut(\"$statut\",\"$titre\");
                             infos($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\",
-                            \"$idtech2\",\"$nomtech\",\"$contacttech\",\"$servicetech\",\"$dispo\");'>$statut</td>";
+                            \"$idtech2\",\"$nomtech\",\"$contacttech\",\"$servicetech\",\"$dispo\");
+                            infos3($ref,\"$date\",\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$depart\",\"$priorite\",\"$statut\",$delai,\"$motif\");
+                            '>$statut</td>";
                   echo "<td>$delai</td>";
                   echo "<td class='d-flex flex-column'>
+
+
+                          <button class='btn-primary btn-sm' id='$button1' data-toggle='modal' data-target='#modalattribuerService' style='display:none;' 
+                          onclick='getref($ref,\"$nom\",\"$type\",\"$cause\",\"$priorite\",\"$message\");'>ATTRIBUER</button>
+
+
+                          <button class='btn-success btn-sm' id='$button2' style='display:none;' onclick='voirfiche($ref);'>VOIR LA FICHE</button>
+
+                          <button class='btn-primary btn-sm' id='$button3' data-toggle='modal' data-target='#modalattribuerTech' style='display:none;' onclick='getrefService($ref);'>ATTRIBUER</button>
+
+                          <button class='btn-primary btn-sm' id='$button4' data-toggle='modal' data-target='#modalupdate' style='display:none;' 
+                          onclick='infos2($ref,\"$nom\",$contact,\"$fonction\",\"$type\",\"$cause\",\"$priorite\",$delai);
+                          '>METTRE À JOUR</button>
                           
-                          <button class='btn-info btn-lg' id='$button1' data-toggle='modal' data-target='#modalattribuer' style='visibility:hidden;font-size:small' 
-                          onclick='getref($ref,\"$nom\",\"$type\",\"$cause\",\"$priorite\",\"$message\");'>attribuer</button>
-                          <button class='btn-light btn-lg' id='$button2' style='visibility:hidden;font-size:small' onclick='voirfiche($ref);'>voir la fiche</button>
-                          <button class='btn-info btn-lg' id='$button3' data-toggle='modal' data-target='#modalattribuerTech' style='visibility:hidden;font-size:small' onclick='getrefService($ref);'>attribuer</button>
-
                           </td></tr>";
-                  echo "<script>change($delai,$ref,\"$statut\",\"$button1\",\"$type\",\"$button2\",\"$button3\");</script>";
-                  
-                  
-                  
-                  // <button class='btn-info btn-lg' id='$button3' data-toggle='modal' data-target='#modalattribuerTech' style='visibility:hidden;font-size:small' onclick='getrefService($ref,\"$nom\",\"$type\",\"$cause\",\"$priorite\",\"$message\");'>attribuer</button>
-
-                }
+                          echo "<script>change($delai,$ref,\"$statut\",\"$button1\",\"$type\",\"$button2\",\"$button3\",\"$button4\",\"$titre\");</script>";
+                
+                  }
                 ?>
                 </tbody>
               </table>
               
-
               <?php } ?>
           </div>
+          </div>
         </div>
+      </div>
 
 
-    <div class="modal fade" id="modalattribuer">
+      <div class="modal fade" id="modalupdate">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+          <div class="modal-body m-5 d-flex align-items-center justify-content-around">
+            <button type="button" id="btnvalider" class="btn" style="background-color: #f4900c;color:white" onclick="openmodal();" data-dismiss="modal">Valider la tache</button>
+            <button type="button" class="btn" style="background-color: #f4900c;color:white" data-toggle='modal' data-target='#modalsuspendre' data-dismiss='modal'>Suspendre la tache</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalsuspendre">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+          <div class="modal-body p-5 ">
+            <form action="#" class="form d-flex flex-column align-items-center" id="form" method="post">
+              <h3 class="modal-title m-3">Motif de la suspension</h5>
+              <div>
+                  <label for="refsus" class="col-sm-2 col-form-label text-info">Ref</label>
+                  <input type="text" readonly class="m-3" id="refsus" name="refsus">
+              </div>
+              <div>
+                 <label for="motif" class="col-sm-2 col-form-label text-info">Motif</label>
+                <input type="text" class="m-3" id="motif" name="motif">
+              </div>
+              <button type="submit" name="suspendre" style="background-color: #f4900c;color:white;width:30%; margin-top : 10px;" >Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalsuspendueTech" >
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div class="modal-body">
+          <div>
+            <p class="font-weight-bold">Informations sur la tache</p>
+            <table class="table">
+              <thead>
+                <tr class="text-info">
+                    <td>Ref</td>
+                    <td scope="col">Date</td>
+                    <td scope="col">Nom</td>
+                    <td scope="col">Contact</td>
+                    <td scope="col">Fonction</td>
+                    <td scope="col">Type</td>
+                    <td scope="col">Cause</td>
+                    <td scope="col">Departement</td>
+                    <td scope="col">Priorite</td>
+                    <td scope="col">Statut</td>
+                    <td scope="col">Durée</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="refinfos"></td>
+                  <td id="date"></td>
+                  <td id="nom"></td>
+                  <td id="contact"></td>
+                  <td id="fonction"></td>
+                  <td id="type"></td>
+                  <td id="cause"></td>
+                  <td id="depart"></td>
+                  <td id="prio"></td>
+                  <td id="statut"></td>
+                  <td id="delai"></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+            <div class="d-flex">
+            <p class="font-weight-bold">Motif de suspension  : </p>
+            <p id="motifsuspension" class="text-danger" style="margin-left: 15px;"></p>
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <form action="#" method="post">
+                <input type="hidden" name="refrep" id="refrep">
+                <button type="submit" name="reprendre" class="btn" style="background-color: #f4900c;color:white;margin : 15px;">rependre la tache</button>
+              </form>
+            <button type="button" class="btn" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="modal fade" id="modalattribuerService">
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
           <div class="modal-body p-5">
@@ -191,7 +296,7 @@
                   <option value="Video Projecteur">- video projecteur</option>
                 </select>
               </div>
-              <button class="btn btn-sm" type="submit" name="attribuer" style="background-color: #f4900c;color:white;width:30%; margin-top : 10px;" >Valider</button>
+              <button class="btn btn-sm" type="submit" name="attribuerService" style="background-color: #f4900c;color:white;width:30%; margin-top : 10px;" >Valider</button>
             </form>
           </div>
         </div>
@@ -205,7 +310,7 @@
           <div class="modal-body p-5">
             <form action="#" class="form d-flex flex-column align-items-center justify-content-between" id="form" method="post">
               <div class="form-group">
-              <input type="text" name="currentref" id="currentref">
+              <input type="hidden" name="currentref" id="currentref">
                 <select class="form-control form-control-lg" name="idtech" id="idtech">
                   <option selected>Selectionner un technicien</option>
                     <?php
@@ -376,21 +481,25 @@
             <div class="d-flex justify-content-center">
             <button type="button" class="btn" name="reprendre" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
             </div>
-
+          </div>
           </div>
         </div>
       </div>
-    </div>
+
+
     <script>
       $(document).ready(function(){
         $("#allTasks").DataTable({
           paging:true,
           scrollY:false,
+          
         });
       })
+
       
     </script>
     
 
   </body>
 </html>
+

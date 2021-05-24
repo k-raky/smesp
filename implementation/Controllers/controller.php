@@ -11,9 +11,11 @@ function getConnexionPage(){
 
     if(!empty($fonction)){
       if($fonction=="technicien"){
-        $result=getTitre($_SESSION['idUser']);
+        $result=getTech($_SESSION['idUser']);
         $_SESSION['titre']=$result['titre'];
         $_SESSION['service']=$result['service'];
+        $_SESSION['nom']=$result['prenom']." ".$result['nom'];
+        $_SESSION['contact']=$result['contact'];
         header("Location: ?action=chefService");
       }
       else
@@ -55,28 +57,6 @@ function clientIndex(){
 
 function getChefServicePage(){
   require('Vue/Frontend/ChefService.php');
-  
-  if(isset($_POST['attribuer'])){ 
-    global $conn;
-
-    $currentref=$_POST['currentref'];
-    $service=$_POST['service']; 
-
-    updateTachesEnAttente($service,$currentref);
-
-    unset($_POST);
-
-  }
-
-  if(isset($_POST['attribuerTech'])){ 
-
-    $currentref=$_POST['currentref'];
-    $idtechnicien=$_POST['idtech']; 
-    updateTachesEnCours($idtechnicien,$currentref);
-
-    unset($_POST);
-
-  }
   
 }
 

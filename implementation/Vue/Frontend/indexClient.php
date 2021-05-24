@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Service de Maintenace</title>
+    <title>Service de Maintenance</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,47 +9,78 @@
     
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
     <script src="https://use.fontawesome.com/ddb12bc858.js"></script>
+
+
+    <style>
+        body {
+            background-color: #3c95a8;
+            background-image: url("Public/img/repair.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-blend-mode: overlay;
+            height: 100vh;
+        }
+        
+        .navbar {
+            font-size: xx-large;
+            color: #3c95a8;
+            font-family: 'Belleza';
+            margin-left: 10px;
+        }
+
+        a.active {
+          color: white;
+        }
+
+       
+    </style>
+
+      
+
   </head>
   <body>
-    <div class="container m-auto">
-      <header id="home" class="mt-4 mb-5">
-        <div class="row justify-content-center">
-          <a href="#" class="col-lg-2 col-sm-2">
-            <img
-              src="Public/img/logo.png"
-              width="150"
-              height="150"
-              class="d-inline-block align-top"
-            />
-          </a>
-          <div class="col-lg-9 col-sm-9 text-center ml-5">
-              <div class="row">
-              <div class="col-lg-9">
-                <h1>École Supérieure Polytechnique de Dakar</h1>
-                <p class="text-muted mb-4">Service de Maintenance</p>
-              </div>
-              <div class="col-lg-3">
-                <a name="logout" href="index.php?action=logout" class="btn btn-default btn-md">
-                  LOG OUT <i class="fa fa-sign-out fa-2x " aria-hidden="true"></i> 
-                </a>
-              </div>
-              
-              
-            </div>
+
+    
+    <nav class="navbar navbar-light bg-light d-flex justify-content-between">
+      <a class="navbar-brand" href="#">
+        <img
+        src="Public/img/logo.png"
+        width="150"
+        height="150"
+        class="d-inline-block align-top"
+        />
+      </a>
+      <div class="col-lg-9 col-sm-9 text-center ml-5">
+        <div class="row">
+          <div class="col-lg-9">
+            <h1>École Supérieure Polytechnique de Dakar</h1>
+            <p class="text-muted mb-4">Service de Maintenance</p>
+          </div>
+          <div class="col-lg-3">
+            <a name="logout" href="index.php?action=logout" class="btn btn-default btn-md">
+              SE DECONNECTER <i class="fa fa-sign-out fa-2x " aria-hidden="true"></i> 
+            </a>
+          </div>
+          
         </div>
-      </header>
-      <section id="Home">
+      </div>
+      
+    </nav>
+    
+    <div class="container mx-auto bg-light m-5 p-3 ">
+     
+      <section id="Home" class="section">
           <ul class="nav nav-pills nav-justified mb-5">
               <li class="nav-item">
-                  <a class="nav-link text-dark active" data-toggle="pill" href="#Status" >Status</a>
+                  <a class="nav-link text-dark active font-weight-bold" data-toggle="pill" href="#Status" >Status</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-dark" data-toggle="pill" href="#Formulaire">Formulaire</a>
+                  <a class="nav-link text-dark font-weight-bold" data-toggle="pill" href="#Formulaire">Formulaire</a>
               </li>
           </ul>
 
@@ -64,22 +95,31 @@
               <table class="table table-hover">
               <thead>
                 <tr>
+                  <th>Date</th>
+                  <th>Type</th>
                   <th>Cause</th>
-                  <th>Département</th>
-                  <th>Date de Demande</th>
-                  <th>État</th>
+                  <th>Priorite</th>
+                  <th>En charge</th>
+                  <th>Contact</th>
+                  <th>Statut</th>
+                  <th>Duree</th>
                 </tr>
               </thead>
               <tbody>
               <?php
                   while($row = mysqli_fetch_assoc($result)) {
+                  $infotech=getTech($row['idtech']);
               ?>
                 
                 <tr>
-                  <td><?php echo $row["cause"] ?></td>
-                  <td><?php echo $row["departement"] ?></td>
                   <td><?php echo $row["date"] ?></td> 
-                  <td><span class="badge badge-primary"><?php echo $row["statut"] ?></span></td> 
+                  <td><?php echo $row["type"] ?></td> 
+                  <td><?php echo $row["cause"] ?></td>
+                  <td><?php echo $row["priorite"] ?></td> 
+                  <td><?php echo $infotech["prenom"]." ".$infotech['nom'] ?></td>
+                  <td><?php echo $infotech["contact"] ?></td> 
+                  <td><span class="badge badge-info"><?php echo $row["statut"] ?></span></td> 
+                  <td><?php echo $row["delai"]." jours"?></td> 
                 </tr>
 
               <?php } ?>
@@ -102,15 +142,9 @@
                 <div class="my-5 text-center">
                   <h2>Demande D'intervention</h2>
                 </div>
-                <div class="row mt-5">
-                  <div class="col-lg-6">
-                      <div >
-                          <h3>Service de Maintenance</h3>
-                          <p>Cras fermentum odio eu feugiat. Justo eget magna fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
-                      </div>
-                  </div>
-
-                  <form class="col-lg-6 col-md-12" method="POST">
+                <div class="row mt-5 ">
+                 
+                  <form class="col-lg-6 col-md-12 m-auto" method="POST">
                   <div class="form-group">
                         <input type="text" name="name" class="form-control" required placeholder="Prenom et Nom"/>
                     </div>
@@ -124,7 +158,7 @@
                             <option value="Professeur">Professeur</option>
                             <option value="Technicien">Technicien</option>
                             <option value="Directeur">Directeur</option>
-                            <option value="Autre">Autre</option>
+                            <option value="Autre" >Autre</option>
                         </select>
                     </div>
                     
@@ -185,7 +219,8 @@
                     </div>
                     
                     <div class="form-group">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
+                      <label for="message">Type de Defaillance si Autre</label>
+                        <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message"></textarea>
                     </div>
                     <div class="text-center"><input type="submit" class="btn btn-primary" value="Envoyer"/></div>
                   </form>

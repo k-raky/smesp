@@ -74,7 +74,7 @@
             <div class="m-3"> 
               <strong><?php echo $nom; ?></strong>
               <p><?php echo $idUser."<br/>".$contact; ?></p>
-              <a name="logout" href="index.php?action=logout" >Se Deconnecter</a>
+              <a name="logout" href="index.php?action=logout" class="text-info" >Se Deconnecter</a>
             </div>
         </div>
         
@@ -85,7 +85,7 @@
           <ul class="nav nav-pills menu flex-column align-items-center align-items-sm-start" id="menu">
 
           <?php
-            if ($titre!="AUCUN"){
+            if ($titre=="CHEF SUPREME"){
           ?>
 
             <li class="nav-item p-2">
@@ -114,6 +114,34 @@
               <a class="nav-link w-100 align-middle" data-toggle="pill" href="#fiche">
               <i class="far fa-chart-bar" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Statistiques</span></a>
             </li>
+            
+            <?php
+            }
+            else if ($titre=="CHEF DE POLE"){
+          ?>
+
+            <li class="nav-item p-2">
+              <a class="nav-link active align-middle w-100 " data-toggle="pill" href="#home">
+              <i class="fas fa-home fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Accueil</span>
+              </a>
+            </li>
+          
+            
+            <li class="nav-item p-2">
+              <a class="nav-link w-100 align-middle" data-toggle="pill" href="#tasks">
+              <i class="fas fa-tasks fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Taches</span></a>
+            </li>
+
+            <li class="nav-item p-2">
+              <a class="nav-link w-100 align-middle" data-toggle="pill" href="#techniciens">
+              <i class="fas fa-user-md fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Techniciens</span> </a>
+            </li>
+
+
+            <li class="nav-item p-2">
+              <a class="nav-link w-100 align-middle" data-toggle="pill" href="#fiche">
+              <i class="far fa-chart-bar" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline ">Statistiques</span></a>
+            </li>
 
             <?php
               }
@@ -132,10 +160,6 @@
                 <i class="fas fa-tasks fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Taches</span></a>
               </li>
 
-              <li class="nav-item p-2">
-                <a class="nav-link w-100 align-middle" data-toggle="pill" href="#techniciens">
-                <i class="fas fa-user-md fa-lg" style="color: white;" aria-hidden="true"></i> <span class="ml-3 d-none d-sm-inline">Techniciens</span> </a>
-              </li>
 
             <?php } ?>
             

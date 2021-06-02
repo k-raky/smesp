@@ -1,13 +1,9 @@
 <?php
-
   require("ficheintervention.php");
-
-
 $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
 $username = "ulsartcj6ukxsuwr";
 $password = "fYEPeEbAu9sTiAzv276j";
 $dbname = "bejunitqknwdzbyfqz0y";
-
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
@@ -15,7 +11,6 @@ if ($conn->connect_error) {
   echo "<script>alert(erreur de connexion : $conn->connect_error)</script>";
 }
 //else echo "<script>alert('success')</script>";
-
 $query = "SELECT * FROM taches where idtech='201808EF8'";
 $result = mysqli_query($conn,$query); 
 if ($result) {
@@ -24,15 +19,10 @@ if ($result) {
 else {
   echo "<script>alert(erreur de requete : $conn->error)</script>";
 }
-
-
 if(isset($_POST['suspendre'])){ 
-
     global $conn;
-
     $motif=$_POST['motif'];
     $refsus=$_POST['refsus'];  
-
     $query3 = "update taches set statut='SUSPENDUE',motifsuspension='$motif' where ref=$refsus";
     $result3 = mysqli_query($conn,$query3); 
     if ($result3) {
@@ -43,14 +33,10 @@ if(isset($_POST['suspendre'])){
       echo "<script>alert(erreur de requete : $conn->error)</script>";
     }
     unset($_POST);
-
 }
-
 if(isset($_POST['reprendre'])){ 
-
   global $conn;
   $refrep=$_POST['refrep'];  
-
   $query4 = "update taches set statut='EN COURS',motifsuspension=NULL where ref=$refrep;";
   $result4 = mysqli_query($conn,$query4); 
   if ($result4) {
@@ -61,11 +47,8 @@ if(isset($_POST['reprendre'])){
     echo "<script>alert(erreur de requete : $conn->error)</script>";
   }
   unset($_POST);
-
 }
-
 ?>
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -73,7 +56,6 @@ if(isset($_POST['reprendre'])){
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.0/css/all.css">
@@ -100,7 +82,6 @@ if(isset($_POST['reprendre'])){
         .statut{
           cursor: pointer;
         }
-
         .container-fluid{
             width: 90%;
             height: fit-content;
@@ -118,8 +99,8 @@ if(isset($_POST['reprendre'])){
         table{
             text-align: center;
         }
-       
-      
+
+
     </style>
 </head>
  
@@ -131,10 +112,7 @@ if(isset($_POST['reprendre'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     
-
-
     <script type="text/javascript">
-
         $(document).ready(function(){
           $("#search").on("keyup", function() {
             var value = $(this).val().toLowerCase();
@@ -143,15 +121,10 @@ if(isset($_POST['reprendre'])){
             });
           });
         });
-
-
         function openmodal(){
               $('#modalvalider').modal('show');
         }
-
-
         function change(delai,ref,statut,button1,button2){
-
           if (delai>4)
           {
             document.getElementById(ref).style.color='red';
@@ -160,7 +133,6 @@ if(isset($_POST['reprendre'])){
           if (statut=="TERMINÉE") {
             document.getElementById(ref).style.color='green';
             document.getElementById(button2).style.visibility="visible";
-
           }
           if (statut=="SUSPENDUE") {
             document.getElementById(ref).style.color='orange';
@@ -170,17 +142,14 @@ if(isset($_POST['reprendre'])){
           }
         }
       
-
         function statut(statut){
           if (statut=="SUSPENDUE") {
             $('#modalsuspendue').modal('show');
           }
         }
-
         function voirfiche(ref){
           location.href="ficheremplie.php?refremplie="+ref;
         }
-
         function infos(ref,date,nom,contact,fonction,type,cause,depart,prio,statut,delai,motif){
           document.getElementById("refinfos").innerText=ref;
           document.getElementById("date").innerText=date;
@@ -197,7 +166,6 @@ if(isset($_POST['reprendre'])){
           document.getElementById("refrep").value=ref;
           
         }
-
         function infos2(ref,nom,contact,fonction,type,cause,prio,delai){
           document.getElementById('refsus').value=ref;
           document.getElementById("reftache").value=ref;
@@ -212,17 +180,13 @@ if(isset($_POST['reprendre'])){
        
         
     </script>
-
-
       <nav class="navbar navbar-expand-sm navbar-darkElectricite fixed-top" style="background-color: white;">
         <i class="fas fa-tools fa-2x x-5" style="color: #f4900c;"></i>
            <a class="navbar-brand" href="#accueil.html">SMESP</a>
        </nav>
    
           <div class="container-fluid bg-light">
-
           <input type="search" name="search" id="search" placeholder="rechercher" class="d-flex align-self-end border-info m-2">
-
             <h1 class="titre m-5">LES DEMANDES</h1>
           
           <div>
@@ -285,8 +249,6 @@ if(isset($_POST['reprendre'])){
               </table>
           </div>
         </div>
-
-
     <div class="modal fade" id="modalupdate">
       <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -297,7 +259,6 @@ if(isset($_POST['reprendre'])){
         </div>
       </div>
     </div>
-
     <div class="modal fade" id="modalsuspendre">
       <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
@@ -318,7 +279,6 @@ if(isset($_POST['reprendre'])){
         </div>
       </div>
     </div>
-
     <div class="modal fade" id="modalsuspendue" >
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -363,7 +323,6 @@ if(isset($_POST['reprendre'])){
             <p class="font-weight-bold">Motif de suspension  : </p>
             <p id="motifsuspension" class="text-danger" style="margin-left: 15px;"></p>
             </div>
-
             <div class="d-flex justify-content-center">
               <form action="#" method="post">
                 <input type="hidden" name="refrep" id="refrep">
@@ -371,12 +330,9 @@ if(isset($_POST['reprendre'])){
               </form>
             <button type="button" class="btn" style="background-color: #f4900c;color:white;margin : 15px;" data-dismiss="modal">ok</button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-
-
   </body>
 </html>

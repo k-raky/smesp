@@ -3,7 +3,6 @@ $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
 $username = "ulsartcj6ukxsuwr";
 $password = "fYEPeEbAu9sTiAzv276j";
 $dbname = "bejunitqknwdzbyfqz0y";
-
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
@@ -11,8 +10,6 @@ if ($conn->connect_error) {
   echo "<script>alert(erreur de connexion : $conn->connect_error)</script>";
 }
 //else echo "<script>alert('success')</script>";
-
-
     if (isset($_GET['refremplie'])) {
        
         $ref=$_GET['refremplie'];
@@ -26,7 +23,6 @@ if ($conn->connect_error) {
         else {
         echo "<script>alert(erreur de requete : $conn->error)</script>";
         }
-
         $query2 = "SELECT * FROM fiche where reftache=$ref";
         $result2 = mysqli_query($conn,$query2); 
         if ($result2) {
@@ -36,7 +32,6 @@ if ($conn->connect_error) {
         else {
         echo "<script>alert(erreur de requete : $conn->error)</script>";
         }
-
         $query3 = "SELECT * FROM materielutilise where reftache=$ref";
         $result3 = mysqli_query($conn,$query3); 
         if ($result3) {
@@ -45,7 +40,6 @@ if ($conn->connect_error) {
         else {
         echo "<script>alert(erreur de requete : $conn->error)</script>";
         }
-
         $query4 = "SELECT * FROM intervenants where reftache=$ref";
         $result4 = mysqli_query($conn,$query4); 
         if ($result4) {
@@ -54,15 +48,10 @@ if ($conn->connect_error) {
         else {
         echo "<script>alert(erreur de requete : $conn->error)</script>";
         }
-
-
     }
     else 
         echo "<script>alert('erreur')</script>";
-
-
 ?>
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -70,7 +59,6 @@ if ($conn->connect_error) {
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -100,7 +88,6 @@ if ($conn->connect_error) {
         }
         
     </style>
-
   </head>
   <body>
       
@@ -116,10 +103,7 @@ if ($conn->connect_error) {
                         <img src="images/logoesp.png">
                         <p><?php echo $row2[2] ?></p>
                     </div>
-
                     <h2 class=" m-5">Fiche d'Intervention N° <?php echo $row2[0] ?></h2>       
-
-
                         <table class="table table-bordered ">
                             <thead>
                                 <tr>
@@ -138,7 +122,6 @@ if ($conn->connect_error) {
                                 </tr>
                             </tbody>
                         </table>
-
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -157,7 +140,6 @@ if ($conn->connect_error) {
                                 </tr>
                             </tbody>
                         </table>
-
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -177,12 +159,11 @@ if ($conn->connect_error) {
                                     }
                                     ?>
                                 </td>
-
                                     <td id="visaremplie"><?php echo $row2[3] ?></td>
 
                                     <td >
                                         <div class="d-flex flex-column align-items-start" style="margin-left: 30%;"> 
-                                            <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2[6] ?>&nbsp;jours</p>
+                                          <p><strong class="text-info">Duree de l'Intervention : </strong>&ensp; <?php echo $row2[6] ?>&nbsp;jours</p>
                                             <p><strong class="text-info"> Date de l'Intervention : </strong>&ensp; <?php echo $row2[4] ?></p>
                                            <p><strong class="text-info">Lieu de l'Intervention : </strong> &ensp; <?php echo $row2[5] ?></p>
                                         </div>
@@ -193,6 +174,7 @@ if ($conn->connect_error) {
 
 
                         <div class="m-3">
+                        
                             <h5>PIECES DE RECHANGES ET CONSOMMABLES</h5>
                         </div>
 
@@ -219,8 +201,6 @@ if ($conn->connect_error) {
                             </tbody>
                         </table>
 
-
                 <a href="javascript:history.back().reload()" class="btn btn-lg m-5 btn-info">ok</a>
   </body>
 </html>
-

@@ -1,18 +1,22 @@
 <?php
 
+    error_reporting(0);
+
   function connectToBD(){
-    $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
-    $username = "ulsartcj6ukxsuwr";
-    $password = "fYEPeEbAu9sTiAzv276j";
-    $dbname = "bejunitqknwdzbyfqz0y";
+    $servername = "localhost";
+    $username = "id16887712_diabi";
+    $password = "Sm-database-123";
+    $dbname = "id16887712_smesp";
 
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     // Check connection
     if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
+      echo ("Connection failed: " . mysqli_connect_error());
     }
+    //else echo "<script>alert('connected to db');</script>";
+    
     return $conn;
   }
 
@@ -28,6 +32,7 @@
       $_SESSION['idUser']=$row['idPersonne'];
       $fonction=$row['fonction'];
     }
+    else echo "<script>alert('Mauvais identifiant ou Mot de passe !');</script>"; 
 
     mysqli_close($conn);
     
@@ -39,11 +44,7 @@
     $conn=connectToBD();
     // $ref= date("Ymd:His");
 
-    if ($type=="Autre") {
-      $statut=NULL;
-    }else $statut="EN ATTENTE";
-
-    $sql="INSERT INTO taches (idDemandeur,nom,fonction,contact,type,departement,priorite,cause,message,statut) VALUES ('".$idUser."','".$name."','".$fonction."','".$contact."','".$type."','".$departement."','".$priorite."','".$cause."','".$message."','".$statut."');";
+    $sql="INSERT INTO taches (idDemandeur,nom,fonction,contact,type,departement,priorite,cause,message) VALUES ('".$idUser."','".$name."','".$fonction."','".$contact."','".$type."','".$departement."','".$priorite."','".$cause."','".$message."');";
     
     $result=mysqli_query($conn,$sql);
     if (!$result) {
@@ -67,6 +68,39 @@
   function getAllTasks(){
     $conn=connectToBD();
     $sql = "SELECT * FROM taches ;";
+    $result = mysqli_query($conn, $sql);
+
+    mysqli_close($conn);
+    
+    return $result;
+  }
+  
+  function getNewTasks(){
+    $conn=connectToBD();
+    $date=date('Y-m-d');
+    $sql = "SELECT * FROM taches where date='$date';";
+    $result = mysqli_query($conn, $sql);
+
+    mysqli_close($conn);
+    
+    return $result;
+  }
+
+  function getNewTaskService($service){
+    $conn=connectToBD();
+    $date=date('Y-m-d');
+    $sql = "SELECT * FROM taches where date='$date' and type='$service';";
+    $result = mysqli_query($conn, $sql);
+
+    mysqli_close($conn);
+    
+    return $result;
+  }
+
+  function getNewTaskTech($idtechnicien){
+    $conn=connectToBD();
+    $date=date('y-m-d');
+    $sql = "SELECT * FROM taches where date='$date' and idtech='$idtechnicien';";
     $result = mysqli_query($conn, $sql);
 
     mysqli_close($conn);
@@ -98,20 +132,18 @@
     $conn=connectToBD();
     $sql = "SELECT count(distinct ref) as nombreTaches from taches group by statut;";
     $result = mysqli_query($conn, $sql);
-    $row=mysqli_fetch_array($result);
-
-    return $row;
+  
+    return $result;
     mysqli_close($conn);
 
   }
 
   function getWaitingSpecificTasks($service){
     $conn=connectToBD();
-    $sql = "SELECT count(distinct ref) as nombreTaches from taches group by statut where type='$service';";
+    $sql = "SELECT count(distinct ref) as nombreTaches from taches where type='$service' group by statut;";
     $result = mysqli_query($conn, $sql);
-    $row=mysqli_fetch_array($result);
 
-    return $row;
+    return $result;
     mysqli_close($conn);
 
   }
@@ -128,6 +160,18 @@
     mysqli_close($conn);
 
   }
+  
+  
+
+  function getAllTechnicien(){
+    $conn=connectToBD();
+    $sql = "SELECT * FROM technicien ;";
+    $result = mysqli_query($conn, $sql);
+
+    return $result;
+    mysqli_close($conn);
+
+  }
 
   function getInfoTech($service){
     $conn=connectToBD();
@@ -136,7 +180,7 @@
 
     return $result;
     mysqli_close($conn);
-
+    
   }
 
   function getAllSpecificTech($service){
@@ -159,9 +203,6 @@
       $row=mysqli_fetch_assoc($result);
       return $row;
     } 
-    else {
-      echo "<script>alert(erreur de requete : $conn->error)</script>";
-    }
       
   }
 
@@ -324,6 +365,7 @@
           if ($result3) {
           echo "<script>alert('fiche enregistree')</script>";
           echo "<script>alert('tache terminee')</script>";
+          echo "<script>location.href='https://sm-esp.000webhostapp.com?action=chefService';</script>";
           } 
           else {
           echo "<script>alert(erreur de requete : $conn->error)</script>";

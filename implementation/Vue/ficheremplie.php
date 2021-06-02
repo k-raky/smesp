@@ -1,8 +1,9 @@
 <?php
-$servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
-$username = "ulsartcj6ukxsuwr";
-$password = "fYEPeEbAu9sTiAzv276j";
-$dbname = "bejunitqknwdzbyfqz0y";
+$servername = "localhost";
+$username = "id16887712_diabi";
+$password = "Sm-database-123";
+$dbname = "id16887712_smesp";
+
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -113,8 +114,8 @@ if ($conn->connect_error) {
    
  
                     <div class=" container-fluid d-flex justify-content-between">
-                        <img src="Public/img/logo.png" width="100px" height="100px">
-                        <p><?php echo $row2['datefiche'] ?></p>
+                        <img src="../../Public/img/logo.png" width="150px" height="150px"/>
+                        <p><strong><?php echo $row2['datefiche'] ?></strong></p>
                     </div>
 
                     <h2 class=" m-5">Fiche d'Intervention N° <?php echo $row2['numero'] ?></h2>       

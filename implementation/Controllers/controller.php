@@ -16,10 +16,12 @@ function getConnexionPage(){
         $_SESSION['service']=$result['service'];
         $_SESSION['nom']=$result['prenom']." ".$result['nom'];
         $_SESSION['contact']=$result['contact'];
-        header("Location: ?action=chefService");
+        echo "<script>location.href='https://sm-esp.000webhostapp.com?action=chefService';</script>";
+        //header("Location: https://sm-esp.000webhostapp.com?action=chefService");
       }
       else
-        header("Location: ?action=client");
+        echo "<script>location.href='https://sm-esp.000webhostapp.com?action=client';</script>";
+        //header("Location: https://sm-esp.000webhostapp.com?action=client");
     }
   }else{
     echo "<a href='/'></a>";

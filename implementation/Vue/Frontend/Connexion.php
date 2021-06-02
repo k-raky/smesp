@@ -33,8 +33,10 @@
             align-items: center;
             flex-direction: column;
             padding: 5%;
-            box-shadow: 0 0 0 1px #3c95ae, 1px 1px 7px 1px #3c95ae;
+            box-shadow: 0 1px 0 0 #3c95a8;
            margin-right: 15%;
+           background-color: rgba(255, 255, 255, 0.733);
+           
       }
       
     </style>
@@ -43,7 +45,7 @@
 
   <body class="container-fluid ">
   
-  <nav class="navbar navbar-expand-lg d-flex align-items-start pl-5">
+  <nav class="navbar navbar-expand-md d-flex align-items-start" style="padding-left : 10%;">
   <a class="navbar-brand" href="#">
         <img
         src="Public/img/logo.png"
@@ -61,11 +63,11 @@
 </div>
    <div class="container-fluid d-flex justify-content-between"> 
 
-          <div class="col-lg-3 indexImg ">
+          <div class="col-lg-3 indexImg mt-5">
           <img src="Public/img/techniciens.jpg" class="img-fluid" alt="something"/>
         </div>
 
-        <div class="rond rounded-circle col-lg-4">
+        <div class="rond col-lg-4 rounded-circle mt-0">
           <i class="fa fa-user-circle fa-5x mb-3" style="color: #3c95ae;"></i>
           <p class="text-muted mb-4">Connectez-vous avec votre mail esp.sn</p>
           <form method="post" action="">

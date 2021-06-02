@@ -22,6 +22,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
+    <style>
+        ..statut{
+          cursor: pointer;
+        }
+    </style>
   </head>
  
   <body>       
@@ -64,7 +69,7 @@
               if (mysqli_num_rows($AllTasks) > 0) {
 
             ?>
-           <table id="allTasks" class="row-border hover align-items-center" data-page-length='10' style="width:100%" >
+           <table id="allTasks" class="row-border hover align-items-center text-center" data-page-length='10' style="width:100%" >
               <thead>
                 <tr>
                   <th scope="col">Ref</th>
@@ -317,7 +322,7 @@
                       $result=getInfoTech($service);
                       while($row = mysqli_fetch_assoc($result)){
                         $id=$row['idTechnicien'];
-                        $nomtech=$row['prenom']." ".$row2['nom'];
+                        $nomtech=$row['prenom']." ".$row['nom'];
                         $contacttech=$row['contact'];
                         $statuttech=$row['statut'];
                         echo "<option value=$id>

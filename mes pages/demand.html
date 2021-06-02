@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
+    <style>
+        body{
+            background-color: #3c95a8;
+            background-image: url("repair.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-blend-mode:overlay;
+        }
+    </style>
+</head>
+ 
+  <body>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(window).on('load',function(){
+            $('#modal').modal('show');
+        })
+
+        var visible='hidden';
+
+        $('#autres').select(function(){
+          document.getElementById("autreinput").style.visibility="visible";
+        })
+        
+    </script>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modal" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header d-flex flex-column align-items-center">
+            <h3 class="modal-title">DEMANDE D'INTERVENTION</h5>
+                <hr/>
+            <h5>Ce formulaire permet de declarer toute irregularite necessitant l'intervention
+                du service de maintenance</h3>
+                <hr/>
+            <h6 class="text-danger">*Obligatoire</h6>
+          </div>
+          <div class="modal-body m-5">
+            <form action="demand.php" method="post" onsubmit="alert('demande enregistree')">
+                <div class="form-group">
+                  <label for="nom">Demandeur*</label>
+                  <input type="text" class="form-control" name="nom" id="nom" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="form-group">
+                  <label for="contact">Contact*</label>
+                  <input type="number" name="contact" id="contact" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                  <label for="fonction">Fonction</label>
+                  <small id="helpId" class="form-text text-muted">Preciser votre fonction</small>
+                  <input type="text" class="form-control" name="fonction" id="fonction" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="faille">Type de defaillance*</label>
+                    <small id="helpId" class="text-muted">Choisir parmi ces types de defaillance</small>
+                    <small id="helpId" class="text-muted">Une seule reponse possible</small>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="faille" id="elec">
+                      <label class="form-check-label" for="elec">
+                          Electricité
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="faille" id="plomb">
+                        <label class="form-check-label" for="plomb">
+                            Plomberie
+                        </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="faille" id="macon">
+                    <label class="form-check-label" for="macon">
+                        Maçonnerie
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="faille" id="menuis">
+                    <label class="form-check-label" for="menuis">
+                        Menuiserie
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="faille" id="clim">
+                    <label class="form-check-label" for="clim">
+                        Climatiseur
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="faille" id="proj">
+                    <label class="form-check-label" for="proj">
+                        Video Projecteur
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="faille" id="autres" onclick="document.getElementById('autreform').style.visibility='visible'">
+                    <label class="form-check-label" for="autres">
+                        Autres
+                    </label>
+                </div>
+                <div class="form-group" id="autreform" style="visibility: hidden;">
+                  <label for="fonction">Autre defaillance</label>
+                  <small id="helpId" class="form-text text-muted">Indiquer si la defaillance ne figure pas sur la liste</small>
+                  <input type="text" class="form-control" name="faille" id="autreinput" aria-describedby="helpId" placeholder="">
+                </div>
+              </div>
+
+                  <div class="form-group">
+                    <label for="priorite">Priorite*</label>
+                    <small id="helpId" class="text-muted">Une seule reponse possible</small>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="priorite" id="urgent">
+                        <label class="form-check-label" for="urgent">
+                          Urgent
+                        </label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" name="priorite" id="peuurgent">
+                      <label class="form-check-label" for="peuurgent">
+                        Peu urgent
+                      </label>
+                  </div>
+                    <div class="form-check">
+                      <input type="radio" class="form-check-input" name="priorite" id="pasurgent">
+                      <label class="form-check-label" for="pasurgent">
+                        Pas urgent
+                      </label>
+                  </div>
+                 </div>
+
+                 <div class="form-group">
+                  <label for="cause">Cause de la defaillance*</label>
+                  <small id="helpId" class="text-muted">Si connue, indiquer la cause de la defaillance</small>
+                  <small id="helpId" class="text-muted">Une seule reponse possible</small>
+                  <div class="form-check">
+                      <input type="radio" class="form-check-input" name="cause" id="usure">
+                    <label class="form-check-label" for="usure">
+                        Usure normale
+                      </label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" name="cause" id="defaututi">
+                  <label class="form-check-label" for="defaututi">
+                      Defaut d'utilisateur
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" name="cause" id="defautprod">
+                  <label class="form-check-label" for="defautprod">
+                      Defaut Produit
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" name="cause" id="autrecause" onclick="document.getElementById('precisioncauseform').style.visibility='visible'">
+                    <label class="form-check-label" for="autrecause">
+                        Autres
+                      </label>
+                  </div>
+                  <div class="form-group" id="precisioncauseform" style="visibility: hidden;">
+                    <label for="fonction">Preciser la cause si autre</label>
+                    <small id="helpId" class="form-text text-muted">Indiquer si la panne ne figure pas sur la liste</small>
+                    <input type="text" class="form-control" name="cause" id="precisionautre" aria-describedby="helpId" placeholder="">
+                  </div>
+                 </div>
+
+
+                  <button type="submit" class="btn btn-primary">Submit</button>  
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"><a href="index.html">Close</a></button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

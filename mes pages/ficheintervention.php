@@ -3,7 +3,6 @@ $servername = "bejunitqknwdzbyfqz0y-mysql.services.clever-cloud.com";
 $username = "ulsartcj6ukxsuwr";
 $password = "fYEPeEbAu9sTiAzv276j";
 $dbname = "bejunitqknwdzbyfqz0y";
-
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
@@ -11,12 +10,8 @@ if ($conn->connect_error) {
   echo "<script>alert(erreur de connexion : $conn->connect_error)</script>";
 }
 //else echo "<script>alert('success')</script>";
-
-
 if(isset($_POST['buttonsubmit'])){ 
-
   global $conn;
-
   $reftache=$_POST["reftache"];
   $datefiche=date("Y-m-d");
   $typemaint=$_POST["typemaint"];
@@ -24,8 +19,8 @@ if(isset($_POST['buttonsubmit'])){
   $datetache=$_POST["datetache"]; 
   $lieu=$_POST["lieu"]; 
   $duree=$_POST["dureetache"];
-  
-    
+
+
     function materielutilise($ref,$quant,$marque,$desi,$nom)
     {
         global $conn;
@@ -46,13 +41,13 @@ if(isset($_POST['buttonsubmit'])){
         }
 
     }
-   
+
+
     for ($i=1; $i<6 ; $i++) { 
         $quant=$_POST["quant".$i];
         $marque=$_POST["marque".$i];
         $desi=$_POST["design".$i];
         $nom=$_POST["interv".$i];
-
         materielutilise($reftache,$quant,$marque,$desi,$nom);
     }
 
@@ -69,10 +64,7 @@ if(isset($_POST['buttonsubmit'])){
     unset($_POST);
 
 }
-
-
 ?>
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -80,7 +72,6 @@ if(isset($_POST['buttonsubmit'])){
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -106,9 +97,8 @@ if(isset($_POST['buttonsubmit'])){
         input ,textarea, div{
             text-align: center;
         }
-        
-    </style>
 
+    </style>
   </head>
   <body>
       
@@ -194,9 +184,7 @@ if(isset($_POST['buttonsubmit'])){
                                         <input type="text" name="interv4" id="interv4">
                                         <input type="text" name="interv5" id="interv5">
                                     </td>
-
                                     <td><textarea class="form-control" name="visa" id="visa" rows="3"></textarea></td>
-
                                     <td class="d-flex justify-content-center align-items-center" >
                                     <div class="d-flex flex-column align-items-end justify-content-evenly">
                                     <label for="date">Date de l'Intervention</label>
@@ -212,7 +200,6 @@ if(isset($_POST['buttonsubmit'])){
                                 </tr>
                             </tbody>
                         </table>
-
                         <div>
                             <p>PIECES DE RECHANGES ET CONSOMMABLES</p>
                         </div>
